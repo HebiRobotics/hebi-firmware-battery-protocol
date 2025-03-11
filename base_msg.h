@@ -10,10 +10,12 @@
 namespace hebi::firmware::protocol {
 
 enum class MessageType {
+    MSG_INVALID = 0x000,
+    
     /* Highest Priority: Control messages */
-    CTRL_SET_NODE_ADDR = 0x000,
-    CTRL_READ_GUID = 0x001,
-    CTRL_READ_FW_VERSION = 0x002,
+    CTRL_SET_NODE_ADDR = 0x001,
+    CTRL_READ_GUID = 0x002,
+    CTRL_READ_FW_VERSION = 0x003,
 
     /* Command Messages */
     CMD_START_DATA = 0x100,
