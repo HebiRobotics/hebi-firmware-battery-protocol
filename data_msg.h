@@ -2,6 +2,8 @@
     Data message definitions
 */
 
+#pragma once
+
 #include "base_msg.h"
 
 namespace hebi::firmware::protocol {

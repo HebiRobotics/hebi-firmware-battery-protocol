@@ -2,7 +2,10 @@
     Basic message structre for a simple protocol
 */
 
+#pragma once
+
 #include <stdint.h>
+
 
 namespace hebi::firmware::protocol {
 
@@ -22,10 +25,14 @@ enum class MessageType {
 };
 
 struct base_msg {
-    struct {
-        uint32_t rsvd:9;        //TODO: Assign these
-        uint32_t msg_type:12;   //Defined with "MessageType" enum
-        uint32_t node_id:8;     //Logical UID for this node
+    union{
+        uint32_t raw;
+        struct {
+            uint32_t node_id:8;     //Logical UID for this node
+            uint32_t msg_type:12;   //Defined with "MessageType" enum
+            uint32_t rsvd:9;        //TODO: Assign these
+            uint32_t invalid:3;     //Pad to 32 bits
+        };
     } EID;
     uint8_t len; //Size of data
     union {
