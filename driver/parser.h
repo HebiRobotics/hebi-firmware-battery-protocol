@@ -3,23 +3,28 @@
 */
 
 #include "all_msg.h"
+#include "LockFreeRingBuffer.h"
 
 
 namespace hebi::firmware::protocol {
 
-class CAN_Parser {
+class Message_Parser {
 public:
-    inline uint8_t node_id_from_eid(uint32_t EID){
-        return ( EID & 0xFF );
-    }
+    Message_Parser();
 
-    inline MessageType msg_type_from_eid(uint32_t EID){
-        return static_cast<MessageType>((EID & (0xFFF << 8)) >> 8);
-    }
-    
-    bool tryParseMsg(uint32_t EID, uint8_t len, uint8_t data[8]);
+    void update();
+
+    std::optional<base_msg> getTxMessage() { return tx_buffer_.take(); }
+    void addRxMessage(base_msg msg) { rx_buffer_.add(msg); }
+    void addTxMessage(base_msg msg) { tx_buffer_.add(msg); }
+
 protected:
+    bool tryParseMsg(base_msg &msg);
+
     virtual void recvd_data_battery_state(battery_state_msg msg) {}
+    
+    util::LF_RingBuffer<protocol::base_msg, 5> rx_buffer_;
+    util::LF_RingBuffer<protocol::base_msg, 5> tx_buffer_;
 };
 
 };

@@ -26,6 +26,14 @@ enum class MessageType {
     DATA_BATTERY_STATE = 0x200,
 };
 
+inline uint8_t node_id_from_eid(uint32_t EID){
+    return ( EID & 0xFF );
+}
+
+inline MessageType msg_type_from_eid(uint32_t EID){
+    return static_cast<MessageType>((EID & (0xFFF << 8)) >> 8);
+}
+
 struct base_msg {
     union{
         uint32_t raw;
@@ -43,6 +51,13 @@ struct base_msg {
         uint32_t data32[2];
     };
 
+    base_msg () { 
+        EID.raw = 0;
+        len = 0;
+        data32[0] = 0;
+        data32[1] = 0;
+    }
+
     base_msg (uint8_t node_id_, MessageType msg_type_){
         EID.rsvd = 0;
         EID.node_id = node_id_;
@@ -53,12 +68,22 @@ struct base_msg {
         base_msg(node_id_, msg_type_){
         len = len_;
         
+        //TODO: Make more efficient? MEMCPY?
         for(uint8_t i = 0; i < len; i++){
             data8[i] = data[i];
         }
     }
-};
 
+    base_msg (uint32_t EID, uint8_t len_, uint8_t data_[8]) { 
+        EID = EID;
+        len = len_;
+        
+        //TODO: Make more efficient? MEMCPY?
+        for(uint8_t i = 0; i < len; i++){
+            data8[i] = data_[i];
+        }
+    }
+};
 
 }
 
