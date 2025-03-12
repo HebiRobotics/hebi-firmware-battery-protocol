@@ -23,4 +23,11 @@ void Main_Node::recvd_data_battery_state(battery_state_msg msg) {
 
 void Main_Node::update(){
     Message_Parser::update();
+
+    count_++;
+    count_ %= 1000;
+
+    //Try to acquire the node once every second
+    if(count_ == 0)
+        addTxMessage(ctrl_set_node_id_msg(DEFAULT_NODE_ID, 0x01));
 }

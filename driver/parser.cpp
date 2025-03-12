@@ -32,6 +32,14 @@ bool Message_Parser::tryParseMsg(base_msg &msg){
 
             return true; //Successful
         }
+        case MessageType::CTRL_SET_NODE_ID: {
+            if(msg.len != ctrl_set_node_id_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = ctrl_set_node_id_msg(node_id, msg.data8);
+            recvd_ctrl_set_node_addr(parsed); //Trigger event
+
+            return true; //Successful
+        }
         default:
             //Invalid Message!
             return false;

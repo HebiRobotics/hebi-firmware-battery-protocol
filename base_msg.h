@@ -10,12 +10,13 @@
 namespace hebi::firmware::protocol {
 
 using node_id_t = uint8_t;
+constexpr uint8_t DEFAULT_NODE_ID = 0xFF;
 
 enum class MessageType {
     MSG_INVALID = 0x000,
     
     /* Highest Priority: Control messages */
-    CTRL_SET_NODE_ADDR = 0x001,
+    CTRL_SET_NODE_ID = 0x001,
     CTRL_READ_GUID = 0x002,
     CTRL_READ_FW_VERSION = 0x003,
 

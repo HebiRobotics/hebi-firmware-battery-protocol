@@ -31,6 +31,8 @@ protected:
     void recvd_data_battery_state(battery_state_msg msg) override;
     
     std::map<node_id_t, child_node_info> child_nodes_;
+
+    uint16_t count_ {0};
 };
 
 };

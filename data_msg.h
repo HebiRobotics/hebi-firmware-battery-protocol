@@ -1,4 +1,4 @@
-/* base_msg.h
+/* data_msg.h
     Data message definitions
 */
 
