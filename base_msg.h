@@ -9,6 +9,8 @@
 
 namespace hebi::firmware::protocol {
 
+using node_id_t = uint8_t;
+
 enum class MessageType {
     MSG_INVALID = 0x000,
     

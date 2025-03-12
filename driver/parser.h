@@ -2,9 +2,10 @@
     Common message parsing functions
 */
 
+#pragma once
+
 #include "all_msg.h"
 #include "LockFreeRingBuffer.h"
-
 
 namespace hebi::firmware::protocol {
 
@@ -12,7 +13,7 @@ class Message_Parser {
 public:
     Message_Parser();
 
-    void update();
+    virtual void update();
 
     std::optional<base_msg> getTxMessage() { return tx_buffer_.take(); }
     void addRxMessage(base_msg msg) { rx_buffer_.add(msg); }
