@@ -74,8 +74,8 @@ struct base_msg {
         }
     }
 
-    base_msg (uint32_t EID, uint8_t len_, uint8_t data_[8]) { 
-        EID = EID;
+    base_msg (uint32_t EID_, uint8_t len_, uint8_t data_[8]) { 
+        EID.raw = EID_;
         len = len_;
         
         //TODO: Make more efficient? MEMCPY?
