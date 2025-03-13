@@ -1,12 +1,12 @@
-#include "parser.h"
+#include "base_node.h"
 
 using namespace hebi::firmware::protocol;
 
-Message_Parser::Message_Parser(){
+Base_Node::Base_Node(){
 
 }
 
-void Message_Parser::update(){
+void Base_Node::update(){
     bool has_data = true;
     while(has_data){
         auto msg_opt = rx_buffer_.take();
@@ -19,7 +19,7 @@ void Message_Parser::update(){
     }
 }
 
-bool Message_Parser::tryParseMsg(base_msg &msg){
+bool Base_Node::tryParseMsg(base_msg &msg){
     auto msg_type = msg_type_from_eid(msg.EID.raw);
     auto node_id = node_id_from_eid(msg.EID.raw);
     

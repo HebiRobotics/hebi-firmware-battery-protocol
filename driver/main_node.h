@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "parser.h"
+#include "base_node.h"
 #include <map>
 
 namespace hebi::firmware::protocol {
@@ -19,7 +19,7 @@ struct child_node_info {
     float capacity_max {};
 };
 
-class Main_Node : public Message_Parser {
+class Main_Node : public Base_Node {
 public:
     Main_Node();
 
@@ -33,6 +33,7 @@ protected:
     std::map<node_id_t, child_node_info> child_nodes_;
 
     uint16_t count_ {0};
+    const uint8_t NODE_ID = 0; //Hardcoded node id to 0
 };
 
 };

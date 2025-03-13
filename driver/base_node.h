@@ -1,4 +1,4 @@
-/* parser.h
+/* Base_Node.h
     Common message parsing functions
 */
 
@@ -9,9 +9,9 @@
 
 namespace hebi::firmware::protocol {
 
-class Message_Parser {
+class Base_Node {
 public:
-    Message_Parser();
+    Base_Node();
 
     virtual void update();
 

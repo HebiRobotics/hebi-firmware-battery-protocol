@@ -22,7 +22,7 @@ void Main_Node::recvd_data_battery_state(battery_state_msg msg) {
 }
 
 void Main_Node::update(){
-    Message_Parser::update();
+    Base_Node::update();
 
     count_++;
     count_ %= 1000;
