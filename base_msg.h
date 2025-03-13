@@ -17,8 +17,9 @@ enum class MessageType {
     
     /* Highest Priority: Control messages */
     CTRL_SET_NODE_ID = 0x001,
-    CTRL_READ_GUID = 0x002,         //TODO
-    CTRL_READ_FW_VERSION = 0x003,   //TODO
+    CTRL_POLL_NODE_ID = 0x002,
+    CTRL_READ_GUID = 0x003,         //TODO
+    CTRL_READ_FW_VERSION = 0x004,   //TODO
 
     /* Command Messages */
     CMD_START_DATA = 0x100,         //TODO

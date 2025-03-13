@@ -33,4 +33,13 @@ struct ctrl_set_node_id_msg : public base_msg {
 };
 
 
+struct cmd_poll_node_id_msg : public base_msg {
+    static const uint8_t MSG_LEN_BYTES = 0;
+
+    //Struct to raw data / raw data to struct
+    cmd_poll_node_id_msg(uint8_t node_id) :
+        base_msg (node_id, MessageType::CTRL_POLL_NODE_ID) {
+            len = MSG_LEN_BYTES;
+    }
+};
 }

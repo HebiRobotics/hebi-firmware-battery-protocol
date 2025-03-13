@@ -20,6 +20,12 @@ struct child_node_info {
 };
 
 class Main_Node : public Base_Node {
+    enum class DriverState {
+        INIT = 0,
+        ACQUIRE,
+        NORMAL
+    };
+
 public:
     Main_Node();
 
@@ -27,13 +33,20 @@ public:
 
     child_node_info& getNodeFromID(node_id_t node_id);
 
+    const std::map<node_id_t, child_node_info>& childNodes() { return child_nodes_; }
+
 protected:
     void recvd_data_battery_state(battery_state_msg msg) override;
     
     std::map<node_id_t, child_node_info> child_nodes_;
 
-    uint16_t count_ {0};
     const uint8_t NODE_ID = 0; //Hardcoded node id to 0
+    const uint16_t ACQUIRE_PERIOD_MS = 200; 
+    const uint16_t ACQUIRE_TIME_MS = 2000; 
+
+    DriverState state_ {DriverState::INIT};
+    uint16_t count_ {0};
+    uint8_t max_node_id_seen_ {0};
 };
 
 };

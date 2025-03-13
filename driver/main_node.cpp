@@ -4,11 +4,15 @@ using namespace hebi::firmware::protocol;
 
 
 Main_Node::Main_Node(){
-
+    state_ = DriverState::ACQUIRE;
+    count_ = 0;
 }
 
 
 child_node_info& Main_Node::getNodeFromID(node_id_t node_id) {
+    if(node_id > max_node_id_seen_)
+        max_node_id_seen_ = node_id;
+    
     return child_nodes_[node_id];
 }
 
@@ -24,10 +28,23 @@ void Main_Node::recvd_data_battery_state(battery_state_msg msg) {
 void Main_Node::update(){
     Base_Node::update();
 
-    count_++;
-    count_ %= 1000;
+    switch(state_){
+    case DriverState::ACQUIRE:
+        count_++;
 
-    //Try to acquire the node once every second
-    if(count_ == 0)
-        addTxMessage(ctrl_set_node_id_msg(DEFAULT_NODE_ID, 0x01));
+        if((count_ % ACQUIRE_PERIOD_MS) == 0)
+            addTxMessage(ctrl_set_node_id_msg(DEFAULT_NODE_ID, max_node_id_seen_ + 1));
+
+        if((count_ % ACQUIRE_PERIOD_MS) == ACQUIRE_PERIOD_MS/2)
+            addTxMessage(cmd_poll_node_id_msg(NODE_ID));
+        
+        if(count_ >= ACQUIRE_TIME_MS)
+            state_ = DriverState::NORMAL;
+        break;
+    case DriverState::NORMAL:
+        break;
+    default:
+        break;
+    }
+
 }
