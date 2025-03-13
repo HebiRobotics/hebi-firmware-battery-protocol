@@ -44,6 +44,16 @@ struct cmd_set_led_msg : public base_msg {
     uint8_t B() { return data8[IND_B]; }
 };
 
+struct cmd_start_data_msg : public base_msg {
+    static const uint8_t MSG_LEN_BYTES = 0;
+
+    //Struct to raw data / raw data to struct
+    cmd_start_data_msg(uint8_t node_id) :
+        base_msg (node_id, MessageType::CMD_START_DATA) {
+            len = MSG_LEN_BYTES;
+    }
+};
+
 struct cmd_disable_output_msg : public base_msg {
     static const uint8_t MSG_LEN_BYTES = 0;
 

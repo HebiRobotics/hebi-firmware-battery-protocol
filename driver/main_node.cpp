@@ -36,7 +36,7 @@ void Main_Node::update(){
             addTxMessage(ctrl_set_node_id_msg(DEFAULT_NODE_ID, max_node_id_seen_ + 1));
 
         if((count_ % ACQUIRE_PERIOD_MS) == ACQUIRE_PERIOD_MS/2)
-            addTxMessage(cmd_poll_node_id_msg(NODE_ID));
+            addTxMessage(ctrl_poll_node_id_msg(NODE_ID));
         
         if(count_ >= ACQUIRE_TIME_MS)
             state_ = DriverState::NORMAL;

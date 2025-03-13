@@ -23,8 +23,10 @@ public:
 protected:
     bool tryParseMsg(base_msg &msg);
 
-    virtual void recvd_ctrl_set_node_addr(ctrl_set_node_id_msg msg) { (void) msg; }
+    virtual void recvd_ctrl_set_node_id(ctrl_set_node_id_msg msg) { (void) msg; }
+    virtual void recvd_ctrl_poll_node_id(ctrl_poll_node_id_msg msg) { (void) msg; }
 
+    virtual void recvd_cmd_start_data(cmd_start_data_msg msg) { (void) msg; }
     virtual void recvd_cmd_set_led(cmd_set_led_msg msg) { (void) msg; }
     virtual void recvd_cmd_disable_output(cmd_disable_output_msg msg) { (void) msg; }
     virtual void recvd_cmd_enable_output(cmd_enable_output_msg msg) { (void) msg; }

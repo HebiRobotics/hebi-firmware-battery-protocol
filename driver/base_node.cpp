@@ -28,7 +28,15 @@ bool Base_Node::tryParseMsg(base_msg &msg){
             if(msg.len != ctrl_set_node_id_msg::MSG_LEN_BYTES) return false;
 
             auto parsed = ctrl_set_node_id_msg(node_id, msg.data8);
-            recvd_ctrl_set_node_addr(parsed); //Trigger event
+            recvd_ctrl_set_node_id(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::CTRL_POLL_NODE_ID: {
+            if(msg.len != ctrl_poll_node_id_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = ctrl_poll_node_id_msg(node_id);
+            recvd_ctrl_poll_node_id(parsed); //Trigger event
 
             return true; //Successful
         }
@@ -37,6 +45,14 @@ bool Base_Node::tryParseMsg(base_msg &msg){
 
             auto parsed = cmd_set_led_msg(node_id, msg.data8);
             recvd_cmd_set_led(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::CMD_START_DATA: {
+            if(msg.len != cmd_start_data_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = cmd_start_data_msg(node_id);
+            recvd_cmd_start_data(parsed); //Trigger event
 
             return true; //Successful
         }
