@@ -38,10 +38,19 @@ void Main_Node::update(){
         if((count_ % ACQUIRE_PERIOD_MS) == ACQUIRE_PERIOD_MS/2)
             addTxMessage(ctrl_poll_node_id_msg(NODE_ID));
         
-        if(count_ >= ACQUIRE_TIME_MS)
+        if(count_ >= ACQUIRE_TIME_MS){
             state_ = DriverState::NORMAL;
+            count_ = 0;
+        }
         break;
     case DriverState::NORMAL:
+        count_++;
+        count_ %= NORMAL_PERIOD_MS;
+
+        //Periodically tell all nodes to start transmitting data
+        if(count_ == 0)
+            addTxMessage(cmd_start_data_msg(NODE_ID));
+        
         break;
     default:
         break;

@@ -43,6 +43,7 @@ protected:
     const uint8_t NODE_ID = 0; //Hardcoded node id to 0
     const uint16_t ACQUIRE_PERIOD_MS = 200; 
     const uint16_t ACQUIRE_TIME_MS = 2000; 
+    const uint16_t NORMAL_PERIOD_MS = 1000; 
 
     DriverState state_ {DriverState::INIT};
     uint16_t count_ {0};
