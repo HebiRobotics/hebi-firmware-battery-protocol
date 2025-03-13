@@ -15,6 +15,7 @@ public:
 
     virtual void update();
 
+    bool hasTxMessage() { return tx_buffer_.length() > 0; }
     std::optional<base_msg> getTxMessage() { return tx_buffer_.take(); }
     virtual void addRxMessage(base_msg msg) { rx_buffer_.add(msg); }
     virtual void addTxMessage(base_msg msg) { tx_buffer_.add(msg); }
