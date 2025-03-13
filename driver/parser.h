@@ -22,9 +22,13 @@ public:
 protected:
     bool tryParseMsg(base_msg &msg);
 
-    virtual void recvd_ctrl_set_node_addr(ctrl_set_node_id_msg msg) {}
+    virtual void recvd_ctrl_set_node_addr(ctrl_set_node_id_msg msg) { (void) msg; }
 
-    virtual void recvd_data_battery_state(battery_state_msg msg) {}
+    virtual void recvd_cmd_set_led(cmd_set_led_msg msg) { (void) msg; }
+    virtual void recvd_cmd_disable_output(cmd_disable_output_msg msg) { (void) msg; }
+    virtual void recvd_cmd_enable_output(cmd_enable_output_msg msg) { (void) msg; }
+
+    virtual void recvd_data_battery_state(battery_state_msg msg) { (void) msg; }
     
     util::LF_RingBuffer<protocol::base_msg, 5> rx_buffer_;
     util::LF_RingBuffer<protocol::base_msg, 5> tx_buffer_;

@@ -17,13 +17,14 @@ enum class MessageType {
     
     /* Highest Priority: Control messages */
     CTRL_SET_NODE_ID = 0x001,
-    CTRL_READ_GUID = 0x002,
-    CTRL_READ_FW_VERSION = 0x003,
+    CTRL_READ_GUID = 0x002,         //TODO
+    CTRL_READ_FW_VERSION = 0x003,   //TODO
 
     /* Command Messages */
-    CMD_START_DATA = 0x100,
-    CMD_ENABLE_OUTPUT = 0x101,
-    CMD_DISABLE_OUTPUT = 0x102,
+    CMD_START_DATA = 0x100,         //TODO
+    CMD_DISABLE_OUTPUT = 0x101,     //Takes precedence over enable output
+    CMD_ENABLE_OUTPUT = 0x102,      
+    CMD_SET_LED = 0x103,
 
     /* Data Messages */
     DATA_BATTERY_STATE = 0x200,
