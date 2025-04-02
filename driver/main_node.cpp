@@ -26,7 +26,7 @@ void Main_Node::recvd_data_battery_state(battery_state_msg msg) {
 }
 
 void Main_Node::update(){
-    Base_Node::update();
+    /*Base_Node::update();
 
     switch(state_){
     case DriverState::ACQUIRE:
@@ -54,6 +54,6 @@ void Main_Node::update(){
         break;
     default:
         break;
-    }
+    }*/
 
 }

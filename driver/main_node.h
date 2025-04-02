@@ -29,7 +29,7 @@ class Main_Node : public Base_Node {
 public:
     Main_Node();
 
-    void update() override;
+    void update();
 
     child_node_info& getNodeFromID(node_id_t node_id);
 

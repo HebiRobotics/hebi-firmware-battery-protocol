@@ -42,4 +42,40 @@ struct ctrl_poll_node_id_msg : public base_msg {
             len = MSG_LEN_BYTES;
     }
 };
-}
+
+
+struct ctrl_start_acquisition_msg : public base_msg {
+    static const uint8_t IND_CLEAR_ID = 0;
+    static const uint8_t MSG_LEN_BYTES = 1;
+
+    //Struct to raw data
+    ctrl_start_acquisition_msg(
+        uint8_t node_id, 
+        bool should_clear_id) :
+        base_msg (node_id, MessageType::CTRL_START_ACQUISITION) {
+            len = MSG_LEN_BYTES;
+            data8[IND_CLEAR_ID] = should_clear_id;
+    }
+
+    //Raw data to struct
+    ctrl_start_acquisition_msg(uint8_t node_id, uint8_t data[8]) :
+        base_msg(node_id, MessageType::CTRL_START_ACQUISITION, MSG_LEN_BYTES, data) {
+        //Do Nothing
+    }
+
+    /* This flag indicates whether a node that already has a valid
+    node id should clear it upon recipt of this message. */
+    bool should_clear_id() { return data8[IND_CLEAR_ID]; }
+};
+
+struct ctrl_stop_acquisition_msg : public base_msg {
+    static const uint8_t MSG_LEN_BYTES = 0;
+
+    //Struct to raw data
+    ctrl_stop_acquisition_msg(uint8_t node_id) :
+        base_msg (node_id, MessageType::CTRL_STOP_ACQUISITION) {
+            len = MSG_LEN_BYTES;
+    }
+};
+
+} //hebi::firmware::protocol

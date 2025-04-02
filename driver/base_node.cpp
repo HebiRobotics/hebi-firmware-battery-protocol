@@ -2,23 +2,6 @@
 
 using namespace hebi::firmware::protocol;
 
-Base_Node::Base_Node(){
-
-}
-
-void Base_Node::update(){
-    bool has_data = true;
-    while(has_data){
-        auto msg_opt = rx_buffer_.take();
-        if(msg_opt.has_value()){
-            tryParseMsg(msg_opt.value());
-        } else {
-            has_data = false;
-        }
-
-    }
-}
-
 bool Base_Node::tryParseMsg(base_msg &msg){
     auto msg_type = msg_type_from_eid(msg.EID.raw);
     auto node_id = node_id_from_eid(msg.EID.raw);
@@ -37,6 +20,22 @@ bool Base_Node::tryParseMsg(base_msg &msg){
 
             auto parsed = ctrl_poll_node_id_msg(node_id);
             recvd_ctrl_poll_node_id(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::CTRL_START_ACQUISITION: {
+            if(msg.len != ctrl_start_acquisition_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = ctrl_start_acquisition_msg(node_id, msg.data8);
+            recvd_ctrl_start_acquisition(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::CTRL_STOP_ACQUISITION: {
+            if(msg.len != ctrl_stop_acquisition_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = ctrl_stop_acquisition_msg(node_id);
+            recvd_ctrl_stop_acquisition(parsed); //Trigger event
 
             return true; //Successful
         }
