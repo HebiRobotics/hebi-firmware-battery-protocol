@@ -30,6 +30,11 @@ void Main_Node::startAcquire(bool should_clear_ids){
     if(state_ == DriverState::NORMAL){
         state_ = DriverState::ACQUIRE_POLL;
 
+        if(should_clear_ids){
+            child_nodes_.clear();
+            max_node_id_seen_ = 0;
+        }
+
         //Send a "start acquisition" message twice when we enter the acquisition state
         can_driver_.sendMessage(ctrl_start_acquisition_msg(NODE_ID, should_clear_ids));
         can_driver_.sendMessage(ctrl_start_acquisition_msg(NODE_ID, should_clear_ids));
@@ -90,6 +95,8 @@ void Main_Node::update(bool acquire_enable, bool clear_ids){
         
         break;
     case DriverState::ACQUIRE_SET:
+        count_++;
+
         if(!acquire_enable) {
             stopAcquire();
             count_ = 0;
