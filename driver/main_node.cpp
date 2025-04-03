@@ -17,8 +17,15 @@ child_node_info& Main_Node::getNodeFromID(node_id_t node_id) {
     return child_nodes_[node_id];
 }
 
+child_node_info& Main_Node::getNodeFromIDAndUpdate(node_id_t node_id) {
+    child_node_info& node = getNodeFromID(node_id);
+    node.t_last_update = t_last_update_;
+    
+    return node;
+}
+
 void Main_Node::recvd_data_battery_state(battery_state_msg msg) {
-    child_node_info& node_info = getNodeFromID(msg.EID.node_id);
+    child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
     node_info.voltage = (float) msg.voltage() / 1000.;
     node_info.current = (float) msg.current() / 1000.;
@@ -51,9 +58,10 @@ void Main_Node::stopAcquire(){
     }
 }
 
-void Main_Node::update(bool acquire_enable, bool clear_ids){
+void Main_Node::update(bool acquire_enable, bool clear_ids, uint64_t t_now){
     bool has_data = true;
     bool msg_recvd = false;
+    t_last_update_ = t_now;
 
     while(has_data){
         auto msg_opt = can_driver_.getMessage();

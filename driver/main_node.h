@@ -18,6 +18,12 @@ struct child_node_info {
     float current {};
     float capacity {};
     float capacity_max {};
+
+    bool isStale(uint64_t t_now) const {
+        return (t_now - t_last_update) > T_STALE_MICROS;
+    }
+
+    static constexpr uint64_t T_STALE_MICROS = 500 * 1000; /* 50ms */
 };
 
 class Main_Node : public Base_Node {
@@ -31,7 +37,7 @@ class Main_Node : public Base_Node {
 public:
     Main_Node(protocol::CAN_driver& can_driver);
 
-    void update(bool acquire_enable, bool clear_ids);
+    void update(bool acquire_enable, bool clear_ids, uint64_t t_micros);
 
     child_node_info& getNodeFromID(node_id_t node_id);
 
@@ -39,6 +45,9 @@ public:
 
 
 protected:
+    //Helper function that updates "t_last_update"
+    child_node_info& getNodeFromIDAndUpdate(node_id_t node_id); 
+
     void startAcquire(bool should_clear_ids);
     void stopAcquire();
     
@@ -52,6 +61,7 @@ protected:
     const uint16_t ACQUIRE_SET_PERIOD_MS = 100; 
     const uint16_t NORMAL_PERIOD_MS = 1000; 
 
+    uint64_t t_last_update_ {0};
     DriverState state_ {DriverState::INIT};
     uint16_t count_ {0};
     uint8_t max_node_id_seen_ {0};
