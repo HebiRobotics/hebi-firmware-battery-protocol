@@ -52,6 +52,7 @@ protected:
     void stopAcquire();
     
     void recvd_data_battery_state(battery_state_msg msg) override;
+    void recvd_ctrl_poll_node_id(ctrl_poll_node_id_msg msg) override;
     
     std::map<node_id_t, child_node_info> child_nodes_;
 

@@ -33,6 +33,11 @@ void Main_Node::recvd_data_battery_state(battery_state_msg msg) {
     node_info.capacity_max = (float) msg.capacity_max() / 1000.;
 }
 
+void Main_Node::recvd_ctrl_poll_node_id(ctrl_poll_node_id_msg msg) {
+    if(msg.EID.node_id != 0xFF)
+        child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
+}
+
 void Main_Node::startAcquire(bool should_clear_ids){
     if(state_ == DriverState::NORMAL){
         state_ = DriverState::ACQUIRE_POLL;
@@ -109,6 +114,7 @@ void Main_Node::update(bool acquire_enable, bool clear_ids, uint64_t t_now){
             stopAcquire();
             count_ = 0;
         } else if(count_ == ACQUIRE_SET_PERIOD_MS){
+            can_driver_.sendMessage(ctrl_poll_node_id_msg(NODE_ID));
             can_driver_.sendMessage(ctrl_set_node_id_msg(DEFAULT_NODE_ID, max_node_id_seen_ + 1));
             count_ = 0;
         }
