@@ -27,10 +27,10 @@ child_node_info& Main_Node::getNodeFromIDAndUpdate(node_id_t node_id) {
 void Main_Node::recvd_data_battery_state(battery_state_msg msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
-    node_info.voltage = (float) msg.voltage() / 1000.;
-    node_info.current = (float) msg.current() / 1000.;
-    node_info.capacity = (float) msg.capacity() / 1000.;
-    node_info.capacity_max = (float) msg.capacity_max() / 1000.;
+    node_info.voltage = (float) msg.voltage() / 1000.; //Int mV to float V
+    node_info.current = (float) msg.current() / 1000.; //Int mA to float A
+    node_info.soc = (float) msg.soc(); //0 - 100 Int
+    node_info.temperature = (float) (msg.temperature() / 10.) - 273.15; //Int 0.1K to float deg C
 }
 
 void Main_Node::recvd_ctrl_poll_node_id(ctrl_poll_node_id_msg msg) {

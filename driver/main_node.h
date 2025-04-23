@@ -16,6 +16,8 @@ struct child_node_info {
     //Battery data info
     float voltage {};
     float current {};
+    float soc {};
+    float temperature {};
     float capacity {};
     float capacity_max {};
 
