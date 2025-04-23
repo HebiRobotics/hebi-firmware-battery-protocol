@@ -40,7 +40,7 @@ bool Base_Node::tryParseMsg(base_msg &msg){
             return true; //Successful
         }
         case MessageType::CMD_SET_LED: {
-            if(msg.len != ctrl_set_node_id_msg::MSG_LEN_BYTES) return false;
+            if(msg.len != cmd_set_led_msg::MSG_LEN_BYTES) return false;
 
             auto parsed = cmd_set_led_msg(node_id, msg.data8);
             recvd_cmd_set_led(parsed); //Trigger event
