@@ -82,7 +82,7 @@ void Main_Node::update(bool acquire_enable, bool clear_ids, uint64_t t_now){
     uint8_t count = 0;
     float soc = 0.0;
     for(const auto &node : child_nodes_){
-        if(!node.second.isStale(t_now)){
+        if(!node.second.isStale(t_now) && node.second.isBatteryConnected()){
             soc += node.second.soc;
             count++;
         }

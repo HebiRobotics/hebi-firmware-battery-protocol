@@ -26,6 +26,10 @@ struct child_node_info {
         return (t_now - t_last_update) > T_STALE_MICROS;
     }
 
+    bool isBatteryConnected() const {
+        return (battery_state & battery_state_msg::BATTERY_CONNECTED_FLAG);
+    }
+
     static constexpr uint64_t T_STALE_MICROS = 3000 * 1000; /* 3000ms */
 };
 
