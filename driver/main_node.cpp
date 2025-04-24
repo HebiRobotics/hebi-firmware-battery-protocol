@@ -27,9 +27,10 @@ child_node_info& Main_Node::getNodeFromIDAndUpdate(node_id_t node_id) {
 void Main_Node::recvd_data_battery_state(battery_state_msg msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
+    node_info.battery_state = msg.state();
+    node_info.soc = (float) msg.soc(); //0 - 100 Int
     node_info.voltage = (float) msg.voltage() / 1000.; //Int mV to float V
     node_info.current = (float) msg.current() / 1000.; //Int mA to float A
-    node_info.soc = (float) msg.soc(); //0 - 100 Int
     node_info.temperature = (float) (msg.temperature() / 10.) - 273.15; //Int 0.1K to float deg C
 }
 
@@ -77,6 +78,20 @@ void Main_Node::update(bool acquire_enable, bool clear_ids, uint64_t t_now){
         }
 
     }
+
+    uint8_t count = 0;
+    float soc = 0.0;
+    for(const auto &node : child_nodes_){
+        if(!node.second.isStale(t_now)){
+            soc += node.second.soc;
+            count++;
+        }
+    }
+    if(count != 0)
+        current_soc_ = soc / count;
+    else
+        current_soc_ = 0.0;
+
 
     switch(state_){
     case DriverState::NORMAL:

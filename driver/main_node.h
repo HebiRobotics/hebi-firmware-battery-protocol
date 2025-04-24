@@ -14,6 +14,7 @@ struct child_node_info {
     uint64_t t_last_update {};
 
     //Battery data info
+    uint8_t battery_state {};
     float voltage {};
     float current {};
     float soc {};
@@ -44,6 +45,7 @@ public:
     child_node_info& getNodeFromID(node_id_t node_id);
 
     const std::map<node_id_t, child_node_info>& childNodes() { return child_nodes_; }
+    float soc() { return current_soc_; }
 
 
 protected:
@@ -68,6 +70,7 @@ protected:
     DriverState state_ {DriverState::INIT};
     uint16_t count_ {0};
     uint8_t max_node_id_seen_ {0};
+    float current_soc_ {0.0};
 
     protocol::CAN_driver& can_driver_;
 };
