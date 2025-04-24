@@ -13,14 +13,24 @@ namespace hebi::firmware::protocol {
 struct child_node_info {
     uint64_t t_last_update {};
 
-    //Battery data info
+    //battery_state_msg
     uint8_t battery_state {};
     float voltage {};
     float current {};
     float soc {};
     float temperature {};
-    float capacity {};
-    float capacity_max {};
+
+    //battery_state_msg_ext_1
+    float avg_current {0};
+    float standby_current {0};
+    uint16_t status_flags {0};
+    float avg_power {0};
+
+    //battery_state_msg_ext_2
+    uint16_t time_to_empty {0};
+    uint16_t time_to_full {0};
+    float capacity_remaining {0};
+    float capacity_full {0};
 
     bool isStale(uint64_t t_now) const {
         return (t_now - t_last_update) > T_STALE_MICROS;
@@ -60,6 +70,8 @@ protected:
     void stopAcquire();
     
     void recvd_data_battery_state(battery_state_msg msg) override;
+    void recvd_data_battery_state_ext_1(battery_state_ext_1_msg msg) override;
+    void recvd_data_battery_state_ext_2(battery_state_ext_2_msg msg) override;
     void recvd_ctrl_poll_node_id(ctrl_poll_node_id_msg msg) override;
     
     std::map<node_id_t, child_node_info> child_nodes_;

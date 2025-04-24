@@ -34,6 +34,24 @@ void Main_Node::recvd_data_battery_state(battery_state_msg msg) {
     node_info.temperature = (float) (msg.temperature() / 10.) - 273.15; //Int 0.1K to float deg C
 }
 
+void Main_Node::recvd_data_battery_state_ext_1(battery_state_ext_1_msg msg) {
+    child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
+
+    node_info.avg_current = msg.avg_current() / 1000.; //Int mA to float A
+    node_info.standby_current = (float) msg.standby_current() / 1000.; //Int mA to float A
+    node_info.status_flags = msg.status_flags();
+    node_info.avg_power = (float) msg.avg_power() / 10.; //Int mW to float W
+}
+
+void Main_Node::recvd_data_battery_state_ext_2(battery_state_ext_2_msg msg) {
+    child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
+
+    node_info.time_to_empty = msg.time_to_empty(); //Minutes
+    node_info.time_to_full = msg.time_to_full(); //Minutes
+    node_info.capacity_remaining = (float) msg.capacity_remaining() / 1000.; //Int mAh to float Ah
+    node_info.capacity_full = (float) msg.capacity_full() / 1000.; //Int mAh to float Ah
+}
+
 void Main_Node::recvd_ctrl_poll_node_id(ctrl_poll_node_id_msg msg) {
     if(msg.EID.node_id != 0xFF)
         child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);

@@ -77,10 +77,10 @@ struct battery_state_ext_1_msg : public base_msg {
         //Do Nothing
     }
     
-    uint16_t avg_current() { return data16[IND_AVG_CURRENT]; }
-    uint16_t standby_current() { return data16[IND_STANDBY_CURRENT]; }
+    int16_t avg_current() { return data16[IND_AVG_CURRENT]; }
+    int16_t standby_current() { return data16[IND_STANDBY_CURRENT]; }
     uint16_t status_flags() { return data16[IND_FLAGS]; }
-    uint16_t avg_power() { return data16[IND_AVG_POWER]; }
+    int16_t avg_power() { return data16[IND_AVG_POWER]; }
 };
 
 struct battery_state_ext_2_msg : public base_msg {
