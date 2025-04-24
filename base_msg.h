@@ -31,6 +31,8 @@ enum class MessageType {
 
     /* Data Messages */
     DATA_BATTERY_STATE = 0x200,
+    DATA_BATTERY_STATE_EXT_1 = 0x201,
+    DATA_BATTERY_STATE_EXT_2 = 0x202,
 };
 
 inline uint8_t node_id_from_eid(uint32_t EID){

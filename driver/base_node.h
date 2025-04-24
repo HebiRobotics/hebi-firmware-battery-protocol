@@ -27,6 +27,8 @@ protected:
     virtual void recvd_cmd_enable_output(cmd_enable_output_msg msg) { (void) msg; }
 
     virtual void recvd_data_battery_state(battery_state_msg msg) { (void) msg; }
+    virtual void recvd_data_battery_state_ext_1(battery_state_ext_1_msg msg) { (void) msg; }
+    virtual void recvd_data_battery_state_ext_2(battery_state_ext_2_msg msg) { (void) msg; }
 };
 
 };

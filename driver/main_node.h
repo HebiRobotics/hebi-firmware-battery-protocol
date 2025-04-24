@@ -26,7 +26,7 @@ struct child_node_info {
         return (t_now - t_last_update) > T_STALE_MICROS;
     }
 
-    static constexpr uint64_t T_STALE_MICROS = 500 * 1000; /* 50ms */
+    static constexpr uint64_t T_STALE_MICROS = 3000 * 1000; /* 3000ms */
 };
 
 class Main_Node : public Base_Node {

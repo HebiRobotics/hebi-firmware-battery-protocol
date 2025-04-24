@@ -79,6 +79,22 @@ bool Base_Node::tryParseMsg(base_msg &msg){
 
             return true; //Successful
         }
+        case MessageType::DATA_BATTERY_STATE_EXT_1: {
+            if(msg.len != battery_state_ext_1_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = battery_state_ext_1_msg(node_id, msg.data8);
+            recvd_data_battery_state_ext_1(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::DATA_BATTERY_STATE_EXT_2: {
+            if(msg.len != battery_state_ext_2_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = battery_state_ext_2_msg(node_id, msg.data8);
+            recvd_data_battery_state_ext_2(parsed); //Trigger event
+
+            return true; //Successful
+        }
         default:
             //Invalid Message!
             return false;
