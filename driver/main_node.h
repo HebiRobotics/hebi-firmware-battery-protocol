@@ -14,8 +14,10 @@ struct child_node_info {
     static constexpr uint8_t ELEC_TYPE_SIZE = 8 + 1; /* 8 char, 1 null */
     static constexpr uint8_t FW_VERSION_SIZE = 16 + 1; /* 16 char, 1 null */
     static constexpr uint64_t T_STALE_MICROS = 3000 * 1000; /* 3000ms */
+    static constexpr uint64_t T_INFO_MICROS = 5 * 1000 * 1000; /* 5s */
 
     uint64_t t_last_update {};
+    uint64_t t_last_info {};
 
     //Ctrl info
     uint64_t guid64 {};
@@ -41,6 +43,10 @@ struct child_node_info {
     uint16_t time_to_full {0};
     float capacity_remaining {0};
     float capacity_full {0};
+
+    bool needsInfo(uint64_t t_now) const {
+        return (t_now - t_last_info) > T_INFO_MICROS;
+    }
 
     bool isStale(uint64_t t_now) const {
         return (t_now - t_last_update) > T_STALE_MICROS;

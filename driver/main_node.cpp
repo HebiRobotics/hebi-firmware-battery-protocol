@@ -80,7 +80,7 @@ void Main_Node::recvd_fw_version(ctrl_fw_version_msg msg) {
 
     if(msg.index() < max_index)
         for(uint8_t i = 0; i < msg.MSG_LEN_BYTES; i++)
-            node_info.hw_type[i + (msg.index() * msg.MSG_LEN_BYTES)] = msg.data8[i];
+            node_info.fw_version[i + (msg.index() * msg.MSG_LEN_BYTES)] = msg.data8[i];
     
     //TODO: "valid" indicator?
 }
@@ -132,12 +132,28 @@ void Main_Node::update(bool acquire_enable, bool clear_ids, uint64_t t_now){
 
     uint8_t count = 0;
     float soc = 0.0;
-    for(const auto &node : child_nodes_){
-        if(!node.second.isStale(t_now) && node.second.isBatteryConnected()){
-            soc += node.second.soc;
-            count++;
+    for(auto &pair : child_nodes_){
+        auto &node = pair.second;
+        if(!node.isStale(t_now)){ 
+            if(node.isBatteryConnected()){
+                soc += node.soc;
+                count++;
+            }
+
+            //Request info if we haven't in a while
+            if(node.needsInfo(t_now)){
+                can_driver_.sendMessage(
+                    ctrl_read_info_msg(pair.first, 
+                        ctrl_read_info_msg::READ_GUID | 
+                        ctrl_read_info_msg::READ_ELEC_TYPE | 
+                        ctrl_read_info_msg::READ_HW_TYPE | 
+                        ctrl_read_info_msg::READ_FW_VERSION
+                    ));
+                node.t_last_info = t_now;
+            }
         }
     }
+
     if(count != 0)
         current_soc_ = soc / count;
     else
