@@ -5,6 +5,7 @@ using namespace hebi::firmware::protocol;
 bool Base_Node::tryParseMsg(base_msg &msg){
     auto msg_type = msg_type_from_eid(msg.EID.raw);
     auto node_id = node_id_from_eid(msg.EID.raw);
+    auto index_crc = index_crc_from_eid(msg.EID.raw);
     
     switch(msg_type){
         case MessageType::CTRL_SET_NODE_ID: {
@@ -39,6 +40,48 @@ bool Base_Node::tryParseMsg(base_msg &msg){
 
             return true; //Successful
         }
+
+        case MessageType::CTRL_READ_INFO: {
+            if(msg.len != ctrl_read_info_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = ctrl_read_info_msg(node_id, msg.data8);
+            recvd_ctrl_read_info(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::CTRL_GUID: {
+            if(msg.len != ctrl_guid_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = ctrl_guid_msg(node_id, index_crc, msg.data8);
+            recvd_ctrl_guid(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::CTRL_ELEC_TYPE: {
+            if(msg.len != ctrl_elec_type_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = ctrl_elec_type_msg(node_id, msg.data8);
+            recvd_elec_type(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::CTRL_HW_TYPE: {
+            if(msg.len != ctrl_hw_type_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = ctrl_hw_type_msg(node_id, msg.data8);
+            recvd_hw_type(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::CTRL_FW_VERSION: {
+            if(msg.len != ctrl_fw_version_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = ctrl_fw_version_msg(node_id, index_crc, msg.data8);
+            recvd_fw_version(parsed); //Trigger event
+
+            return true; //Successful
+        }
+
         case MessageType::CMD_SET_LED: {
             if(msg.len != cmd_set_led_msg::MSG_LEN_BYTES) return false;
 
@@ -71,6 +114,7 @@ bool Base_Node::tryParseMsg(base_msg &msg){
 
             return true; //Successful
         }
+
         case MessageType::DATA_BATTERY_STATE: {
             if(msg.len != battery_state_msg::MSG_LEN_BYTES) return false;
 

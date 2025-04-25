@@ -52,6 +52,39 @@ void Main_Node::recvd_data_battery_state_ext_2(battery_state_ext_2_msg msg) {
     node_info.capacity_full = (float) msg.capacity_full() / 1000.; //Int mAh to float Ah
 }
 
+void Main_Node::recvd_ctrl_guid(ctrl_guid_msg msg) {
+    child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
+
+    if(msg.index() == 0)
+        node_info.guid64 = msg.guid();
+}
+
+void Main_Node::recvd_elec_type(ctrl_elec_type_msg msg) {
+    child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
+
+    for(uint8_t i = 0; i < msg.MSG_LEN_BYTES; i++)
+        node_info.elec_type[i] = msg.data8[i];
+}
+
+void Main_Node::recvd_hw_type(ctrl_hw_type_msg msg) {
+    child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
+
+    for(uint8_t i = 0; i < msg.MSG_LEN_BYTES; i++)
+        node_info.hw_type[i] = msg.data8[i];
+}
+
+void Main_Node::recvd_fw_version(ctrl_fw_version_msg msg) {
+    child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
+
+    uint8_t max_index = ((child_node_info::FW_VERSION_SIZE) / msg.MSG_LEN_BYTES);
+
+    if(msg.index() < max_index)
+        for(uint8_t i = 0; i < msg.MSG_LEN_BYTES; i++)
+            node_info.hw_type[i + (msg.index() * msg.MSG_LEN_BYTES)] = msg.data8[i];
+    
+    //TODO: "valid" indicator?
+}
+
 void Main_Node::recvd_ctrl_poll_node_id(ctrl_poll_node_id_msg msg) {
     if(msg.EID.node_id != 0xFF)
         child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);

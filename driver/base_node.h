@@ -21,6 +21,12 @@ protected:
     virtual void recvd_ctrl_start_acquisition(ctrl_start_acquisition_msg msg) { (void) msg; }
     virtual void recvd_ctrl_stop_acquisition(ctrl_stop_acquisition_msg msg) { (void) msg; }
 
+    virtual void recvd_ctrl_read_info(ctrl_read_info_msg msg) { (void) msg; }
+    virtual void recvd_ctrl_guid(ctrl_guid_msg msg) { (void) msg; }
+    virtual void recvd_elec_type(ctrl_elec_type_msg msg) { (void) msg; }
+    virtual void recvd_hw_type(ctrl_hw_type_msg msg) { (void) msg; }
+    virtual void recvd_fw_version(ctrl_fw_version_msg msg) { (void) msg; }
+
     virtual void recvd_cmd_start_data(cmd_start_data_msg msg) { (void) msg; }
     virtual void recvd_cmd_set_led(cmd_set_led_msg msg) { (void) msg; }
     virtual void recvd_cmd_disable_output(cmd_disable_output_msg msg) { (void) msg; }

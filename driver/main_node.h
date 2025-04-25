@@ -11,9 +11,19 @@
 namespace hebi::firmware::protocol {
 
 struct child_node_info {
+    static constexpr uint8_t ELEC_TYPE_SIZE = 8 + 1; /* 8 char, 1 null */
+    static constexpr uint8_t FW_VERSION_SIZE = 16 + 1; /* 16 char, 1 null */
+    static constexpr uint64_t T_STALE_MICROS = 3000 * 1000; /* 3000ms */
+
     uint64_t t_last_update {};
 
-    //battery_state_msg
+    //Ctrl info
+    uint64_t guid64 {};
+    char elec_type[ELEC_TYPE_SIZE] {};
+    char hw_type[ELEC_TYPE_SIZE] {};
+    uint8_t fw_version[16] {};
+
+    //Battery data info
     uint8_t battery_state {};
     float voltage {};
     float current {};
@@ -39,8 +49,6 @@ struct child_node_info {
     bool isBatteryConnected() const {
         return (battery_state & battery_state_msg::BATTERY_CONNECTED_FLAG);
     }
-
-    static constexpr uint64_t T_STALE_MICROS = 3000 * 1000; /* 3000ms */
 };
 
 class Main_Node : public Base_Node {
@@ -73,6 +81,11 @@ protected:
     void recvd_data_battery_state_ext_1(battery_state_ext_1_msg msg) override;
     void recvd_data_battery_state_ext_2(battery_state_ext_2_msg msg) override;
     void recvd_ctrl_poll_node_id(ctrl_poll_node_id_msg msg) override;
+    
+    void recvd_ctrl_guid(ctrl_guid_msg msg) override;
+    void recvd_elec_type(ctrl_elec_type_msg msg) override;
+    void recvd_hw_type(ctrl_hw_type_msg msg) override;
+    void recvd_fw_version(ctrl_fw_version_msg msg) override;
     
     std::map<node_id_t, child_node_info> child_nodes_;
 
