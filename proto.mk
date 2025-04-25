@@ -1,2 +1,2 @@
-PROTO_INC = $(PROTO_DIR) $(PROTO_DIR)/driver
-PROTO_CPPSRC = $(wildcard $(PROTO_DIR)/driver/*.cpp) 
+PROTO_INC = $(PROTO_DIR) $(PROTO_DIR)/nodes
+PROTO_CPPSRC = $(wildcard $(PROTO_DIR)/nodes/*.cpp) 

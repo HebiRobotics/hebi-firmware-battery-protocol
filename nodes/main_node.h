@@ -5,7 +5,7 @@
 #pragma once
 
 #include "base_node.h"
-#include "driver/can_driver.h"
+#include "nodes/can_driver.h"
 #include <map>
 
 namespace hebi::firmware::protocol {
