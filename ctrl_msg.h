@@ -101,10 +101,8 @@ struct ctrl_elec_type_msg : public base_msg {
 
         //Copy string, stop at null terminator
         for(uint8_t i = 0; i < MSG_LEN_BYTES; i++){
-            if(string[i] != 0x00)
-                data8[i] = string[i];
-            else
-                break;
+            data8[i] = string[i];
+            if(string[i] == 0x00) break;
         }
     }
 
@@ -125,10 +123,8 @@ struct ctrl_hw_type_msg : public base_msg {
 
         //Copy string, stop at null terminator
         for(uint8_t i = 0; i < MSG_LEN_BYTES; i++){
-            if(string[i] != 0x00)
-                data8[i] = string[i];
-            else
-                break;
+            data8[i] = string[i];
+            if(string[i] == 0x00) break;
         }
     }
 
@@ -149,10 +145,8 @@ struct ctrl_fw_version_msg : public base_msg {
 
         //Copy string, stop at null terminator
         for(uint8_t i = 0; i < MSG_LEN_BYTES; i++){
-            if(string[i] != 0x00)
-                data8[i] = string[i];
-            else
-                break;
+            data8[i] = string[i];
+            if(string[i] == 0x00) break;
         }
     }
 
