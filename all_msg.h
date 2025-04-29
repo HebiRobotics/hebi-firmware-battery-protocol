@@ -2,3 +2,4 @@
 #include "data_msg.h"
 #include "ctrl_msg.h"
 #include "cmd_msg.h"
+#include "boot_msg.h"

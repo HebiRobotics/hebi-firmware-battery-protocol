@@ -20,12 +20,23 @@ enum class MessageType {
     CTRL_POLL_NODE_ID = 0x002,
     CTRL_START_ACQUISITION = 0x003, //Tell nodes to enter acquisition mode
     CTRL_STOP_ACQUISITION = 0x004,  //Tell nodes to exit acquisition mode
-    //Info messages
+    //Info Messages
     CTRL_READ_INFO = 0x010,         //Request info from a node
     CTRL_GUID = 0x011,              //Response: STM32 UID
     CTRL_ELEC_TYPE = 0x012,         //Response: 8-character ASCII encoded Electrical Type
     CTRL_HW_TYPE = 0x013,           //Response: 8-character ASCII encoded Hardware Type
     CTRL_FW_VERSION = 0x014,        //Response: 8 bytes of FW hash, position determined by "index" field
+    
+    /* Bootloader Messages */
+    BOOT_SET_KEY = 0x0F0,           //Command: Set key for firmware decryption
+    BOOT_PARTITION_LENGTH = 0x0F1,  //Request / Response: flash partition length
+    BOOT_READ = 0x0F2,              //Request to read flash data from a node, max 2048 bytes at a time
+    BOOT_READ_DATA = 0x0F3,         //Response: 8 bytes of requested data, position determined by "index"
+    BOOT_READ_END = 0x0F4,
+    BOOT_WRITE = 0x0F5,             //Start a write operation, max 2048 bytes at a time
+    BOOT_WRITE_DATA = 0x0F6,        //Indexed data, 8 bytes
+    BOOT_WRITE_END = 0x0F7,         //Command / Response: Finish write, respond with status
+    BOOT_ERASE = 0x0F8,             //Erase a partition
 
     /* Command Messages */
     CMD_START_DATA = 0x100,         //TODO
