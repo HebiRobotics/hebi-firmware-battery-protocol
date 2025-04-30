@@ -40,7 +40,22 @@ bool Base_Node::tryParseMsg(base_msg &msg){
 
             return true; //Successful
         }
+        case MessageType::CTRL_RESET: {
+            if(msg.len != ctrl_reset_msg::MSG_LEN_BYTES) return false;
 
+            auto parsed = ctrl_reset_msg(node_id);
+            recvd_ctrl_reset(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::CTRL_SET_STAY_IN_BOOT: {
+            if(msg.len != ctrl_set_stay_in_boot_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = ctrl_set_stay_in_boot_msg(node_id, msg.data8);
+            recvd_ctrl_set_stay_in_boot(parsed); //Trigger event
+
+            return true; //Successful
+        }
         case MessageType::CTRL_READ_INFO: {
             if(msg.len != ctrl_read_info_msg::MSG_LEN_BYTES) return false;
 
@@ -78,6 +93,14 @@ bool Base_Node::tryParseMsg(base_msg &msg){
 
             auto parsed = ctrl_fw_version_msg(node_id, index_crc, msg.data8);
             recvd_fw_version(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::CTRL_FW_MODE: {
+            if(msg.len != ctrl_fw_mode_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = ctrl_fw_mode_msg(node_id, index_crc, msg.data8);
+            recvd_fw_mode(parsed); //Trigger event
 
             return true; //Successful
         }

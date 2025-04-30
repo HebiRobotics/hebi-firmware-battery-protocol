@@ -210,7 +210,8 @@ void Main_Node::update(bool acquire_enable, bool clear_ids, uint64_t t_now){
                         ctrl_read_info_msg::READ_GUID | 
                         ctrl_read_info_msg::READ_ELEC_TYPE | 
                         ctrl_read_info_msg::READ_HW_TYPE | 
-                        ctrl_read_info_msg::READ_FW_VERSION
+                        ctrl_read_info_msg::READ_FW_VERSION | 
+                        ctrl_read_info_msg::READ_FW_MODE
                     ));
                 node.t_last_info = t_now;
             }
@@ -230,6 +231,7 @@ void Main_Node::update(bool acquire_enable, bool clear_ids, uint64_t t_now){
         //Periodically tell all nodes to start transmitting data
         //Serves as a "keep alive" message
         if(count_ == NORMAL_PERIOD_MS){
+            can_driver_.sendMessage(ctrl_poll_node_id_msg(NODE_ID));
             can_driver_.sendMessage(cmd_start_data_msg(NODE_ID));
             count_ = 0;
         }
