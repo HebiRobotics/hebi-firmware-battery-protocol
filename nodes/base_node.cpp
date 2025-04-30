@@ -56,6 +56,7 @@ bool Base_Node::tryParseMsg(base_msg &msg){
 
             return true; //Successful
         }
+
         case MessageType::CTRL_READ_INFO: {
             if(msg.len != ctrl_read_info_msg::MSG_LEN_BYTES) return false;
 
@@ -101,6 +102,79 @@ bool Base_Node::tryParseMsg(base_msg &msg){
 
             auto parsed = ctrl_fw_mode_msg(node_id, index_crc, msg.data8);
             recvd_fw_mode(parsed); //Trigger event
+
+            return true; //Successful
+        }
+
+        case MessageType::BOOT_SET_KEY: {
+            if(msg.len != boot_set_key_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = boot_set_key_msg(node_id, index_crc, msg.data8);
+            recvd_boot_set_key(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::BOOT_PARTITION_LENGTH: {
+            if(msg.len != boot_partition_length_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = boot_partition_length_msg(node_id, msg.data8);
+            recvd_boot_partition_length(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::BOOT_READ: {
+            if(msg.len != boot_read_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = boot_read_msg(node_id, msg.data8);
+            recvd_boot_read(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::BOOT_READ_DATA: {
+            if(msg.len != boot_read_data_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = boot_read_data_msg(node_id, index_crc, msg.data8);
+            recvd_boot_read_data(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::BOOT_READ_END: {
+            if(msg.len != boot_read_end_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = boot_read_end_msg(node_id, msg.data8);
+            recvd_boot_read_end(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::BOOT_WRITE: {
+            if(msg.len != boot_write_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = boot_write_msg(node_id, msg.data8);
+            recvd_boot_write(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::BOOT_WRITE_DATA: {
+            if(msg.len != boot_write_data_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = boot_write_data_msg(node_id, index_crc, msg.data8);
+            recvd_boot_write_data(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::BOOT_WRITE_END: {
+            if(msg.len != boot_write_end_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = boot_write_end_msg(node_id, msg.data8);
+            recvd_boot_write_end(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::BOOT_ERASE: {
+            if(msg.len != boot_erase_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = boot_erase_msg(node_id, msg.data8);
+            recvd_boot_erase(parsed); //Trigger event
 
             return true; //Successful
         }
