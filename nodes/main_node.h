@@ -15,6 +15,7 @@ struct child_node_info {
     static constexpr uint8_t FW_VERSION_SIZE = 16 + 1; /* 16 char, 1 null */
     static constexpr uint64_t T_STALE_MICROS = 3000 * 1000; /* 3000ms */
     static constexpr uint64_t T_INFO_MICROS = 5 * 1000 * 1000; /* 5s */
+    static constexpr uint32_t MAX_BOOTLOADER_READ_SIZE = 512;
 
     uint64_t t_last_update {};
     uint64_t t_last_info {};
@@ -24,6 +25,15 @@ struct child_node_info {
     char elec_type[ELEC_TYPE_SIZE] {};
     char hw_type[ELEC_TYPE_SIZE] {};
     uint8_t fw_version[16] {};
+
+    //Bootloader info
+    bool is_bootloader_active { false };
+    boot_action_t bootloader_action { boot_action_t::NONE };
+    bool bootloader_has_result { false };
+    status_t last_action_result { status_t::OK };
+    uint32_t partition_length {0};
+    uint32_t read_length {0};
+    uint8_t read_buffer[MAX_BOOTLOADER_READ_SIZE];
 
     //Battery data info
     uint8_t battery_state {};
@@ -54,6 +64,21 @@ struct child_node_info {
 
     bool isBatteryConnected() const {
         return (battery_state & battery_state_msg::BATTERY_CONNECTED_FLAG);
+    }
+
+    bool hasBootloaderResult() const {
+        return bootloader_has_result;
+    }
+
+    status_t getBootloaderResult() {
+        if(!bootloader_has_result) return status_t::ERROR;
+        
+        bootloader_has_result = false;
+        return last_action_result;
+    }
+
+    bool bootloaderResultIsOk() {
+        return getBootloaderResult() == status_t::OK;
     }
 };
 
@@ -87,11 +112,18 @@ protected:
     void recvd_data_battery_state_ext_1(battery_state_ext_1_msg msg) override;
     void recvd_data_battery_state_ext_2(battery_state_ext_2_msg msg) override;
     void recvd_ctrl_poll_node_id(ctrl_poll_node_id_msg msg) override;
+
+    void recvd_boot_partition_length(boot_partition_length_msg msg) override;
+    void recvd_boot_read_data(boot_read_data_msg msg) override;
+    void recvd_boot_read_end(boot_read_end_msg msg) override;
+    void recvd_boot_write_end(boot_write_end_msg msg) override;
+    void recvd_boot_erase(boot_erase_msg msg) override;
     
     void recvd_ctrl_guid(ctrl_guid_msg msg) override;
     void recvd_elec_type(ctrl_elec_type_msg msg) override;
     void recvd_hw_type(ctrl_hw_type_msg msg) override;
     void recvd_fw_version(ctrl_fw_version_msg msg) override;
+    void recvd_fw_mode(ctrl_fw_mode_msg msg) override;
     
     std::map<node_id_t, child_node_info> child_nodes_;
 

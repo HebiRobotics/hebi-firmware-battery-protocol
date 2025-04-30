@@ -22,11 +22,20 @@ enum class status_t {
     FINAL_PACKET = 3,
 };
 
+enum class boot_action_t {
+    NONE = 0,
+    SET_KEY = 1,
+    PARTITION_LENGTH = 2,
+    READ = 3,
+    WRITE = 4,
+    ERASE = 5,
+};
+
 struct boot_set_key_msg : public base_msg {
     static const uint8_t MSG_LEN_BYTES = 8;
 
     //Raw data to struct
-    boot_set_key_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
+    boot_set_key_msg(uint8_t node_id, uint8_t index, const uint8_t data[8]) :
         base_msg(node_id, MessageType::BOOT_SET_KEY, MSG_LEN_BYTES, data, index) {
         //Do Nothing
     }
@@ -182,7 +191,7 @@ struct boot_write_data_msg : public base_msg {
     static const uint8_t MSG_LEN_BYTES = 8;
 
     //Raw data to struct
-    boot_write_data_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
+    boot_write_data_msg(uint8_t node_id, uint8_t index, const uint8_t data[8]) :
         base_msg(node_id, MessageType::BOOT_WRITE_DATA, MSG_LEN_BYTES, data, index) {
         //Do Nothing
     }

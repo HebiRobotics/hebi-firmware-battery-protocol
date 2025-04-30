@@ -87,7 +87,70 @@ void Main_Node::recvd_fw_version(ctrl_fw_version_msg msg) {
 
 void Main_Node::recvd_ctrl_poll_node_id(ctrl_poll_node_id_msg msg) {
     if(msg.EID.node_id != 0xFF)
-        child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
+        getNodeFromIDAndUpdate(msg.EID.node_id);
+}
+
+void Main_Node::recvd_fw_mode(ctrl_fw_mode_msg msg) { 
+    child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
+
+    node_info.is_bootloader_active = msg.is_bootloader();
+}
+
+void Main_Node::recvd_boot_partition_length(boot_partition_length_msg msg) {
+    child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
+
+    if(node_info.bootloader_action == boot_action_t::PARTITION_LENGTH){
+        node_info.partition_length = msg.partition_length();
+        node_info.last_action_result = status_t::OK;
+        node_info.bootloader_has_result = true;
+    }
+}
+
+void Main_Node::recvd_boot_read_data(boot_read_data_msg msg) {
+    child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
+
+    if(node_info.bootloader_action == boot_action_t::READ){
+        uint8_t max_index = ((child_node_info::MAX_BOOTLOADER_READ_SIZE) / msg.MSG_LEN_BYTES);
+
+        if(msg.index() < max_index){
+            for(uint8_t i = 0; i < msg.MSG_LEN_BYTES; i++)
+                node_info.read_buffer[i + (msg.index() * msg.MSG_LEN_BYTES)] = msg.data8[i];
+            
+            //Assume that the read is padded to a multiple of MSG_LEN_BYTES
+            node_info.read_length += msg.MSG_LEN_BYTES;
+        }
+    }
+}
+
+void Main_Node::recvd_boot_read_end(boot_read_end_msg msg) {
+    child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
+    
+    if(node_info.bootloader_action == boot_action_t::READ){
+        if(msg.length() == node_info.read_length){
+            node_info.last_action_result = msg.status();
+        } else {
+            node_info.last_action_result = status_t::ERROR;
+        }
+        node_info.bootloader_has_result = true;
+    }
+}
+
+void Main_Node::recvd_boot_write_end(boot_write_end_msg msg) {
+    child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
+
+    if(node_info.bootloader_action == boot_action_t::WRITE){
+        node_info.last_action_result = msg.status();
+        node_info.bootloader_has_result = true;
+    }
+}
+
+void Main_Node::recvd_boot_erase(boot_erase_msg msg) {
+    child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
+
+    if(node_info.bootloader_action == boot_action_t::ERASE){
+        node_info.last_action_result = msg.status();
+        node_info.bootloader_has_result = true;
+    }
 }
 
 void Main_Node::startAcquire(bool should_clear_ids){

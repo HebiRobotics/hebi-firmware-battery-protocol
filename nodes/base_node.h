@@ -20,12 +20,15 @@ protected:
     virtual void recvd_ctrl_poll_node_id(ctrl_poll_node_id_msg msg) { (void) msg; }
     virtual void recvd_ctrl_start_acquisition(ctrl_start_acquisition_msg msg) { (void) msg; }
     virtual void recvd_ctrl_stop_acquisition(ctrl_stop_acquisition_msg msg) { (void) msg; }
+    virtual void recvd_ctrl_reset(ctrl_reset_msg msg) { (void) msg; }
+    virtual void recvd_ctrl_set_stay_in_boot(ctrl_set_stay_in_boot_msg msg) { (void) msg; }
 
     virtual void recvd_ctrl_read_info(ctrl_read_info_msg msg) { (void) msg; }
     virtual void recvd_ctrl_guid(ctrl_guid_msg msg) { (void) msg; }
     virtual void recvd_elec_type(ctrl_elec_type_msg msg) { (void) msg; }
     virtual void recvd_hw_type(ctrl_hw_type_msg msg) { (void) msg; }
     virtual void recvd_fw_version(ctrl_fw_version_msg msg) { (void) msg; }
+    virtual void recvd_fw_mode(ctrl_fw_mode_msg msg) { (void) msg; }
 
     virtual void recvd_boot_set_key(boot_set_key_msg msg) { (void) msg; }
     virtual void recvd_boot_partition_length(boot_partition_length_msg msg) { (void) msg; }

@@ -20,12 +20,16 @@ enum class MessageType {
     CTRL_POLL_NODE_ID = 0x002,
     CTRL_START_ACQUISITION = 0x003, //Tell nodes to enter acquisition mode
     CTRL_STOP_ACQUISITION = 0x004,  //Tell nodes to exit acquisition mode
+    CTRL_RESET = 0x005,             //Tell a node to reset
+    CTRL_SET_STAY_IN_BOOT = 0x006,  //Tell a node to stay in bootloader on next reset
+
     //Info Messages
     CTRL_READ_INFO = 0x010,         //Request info from a node
     CTRL_GUID = 0x011,              //Response: STM32 UID
     CTRL_ELEC_TYPE = 0x012,         //Response: 8-character ASCII encoded Electrical Type
     CTRL_HW_TYPE = 0x013,           //Response: 8-character ASCII encoded Hardware Type
     CTRL_FW_VERSION = 0x014,        //Response: 8 bytes of FW hash, position determined by "index" field
+    CTRL_FW_MODE = 0x015,           //Response: FW mode (boot or application)
     
     /* Bootloader Messages */
     BOOT_SET_KEY = 0x0F0,           //Command: Set key for firmware decryption
@@ -95,7 +99,7 @@ struct base_msg {
         EID.index_crc = index_crc;
     }
 
-    base_msg (uint8_t node_id_, MessageType msg_type_, uint8_t len_, uint8_t data[8], uint8_t index_crc = 0) :
+    base_msg (uint8_t node_id_, MessageType msg_type_, uint8_t len_, const uint8_t data[8], uint8_t index_crc = 0) :
         base_msg(node_id_, msg_type_, index_crc){
         len = len_;
         
@@ -105,7 +109,7 @@ struct base_msg {
         }
     }
 
-    base_msg (uint32_t EID_, uint8_t len_, uint8_t data_[8]) { 
+    base_msg (uint32_t EID_, uint8_t len_, const uint8_t data_[8]) { 
         EID.raw = EID_;
         len = len_;
         
