@@ -31,17 +31,6 @@ enum class MessageType {
     CTRL_FW_VERSION = 0x014,        //Response: 8 bytes of FW hash, position determined by "index" field
     CTRL_FW_MODE = 0x015,           //Response: FW mode (boot or application)
     
-    /* Bootloader Messages */
-    BOOT_SET_KEY = 0x0F0,           //Command: Set key for firmware decryption
-    BOOT_PARTITION_LENGTH = 0x0F1,  //Request / Response: flash partition length
-    BOOT_READ = 0x0F2,              //Request to read flash data from a node, max 2048 bytes at a time
-    BOOT_READ_DATA = 0x0F3,         //Response: 8 bytes of requested data, position determined by "index"
-    BOOT_READ_END = 0x0F4,
-    BOOT_WRITE = 0x0F5,             //Start a write operation, max 2048 bytes at a time
-    BOOT_WRITE_DATA = 0x0F6,        //Indexed data, 8 bytes
-    BOOT_WRITE_END = 0x0F7,         //Command / Response: Finish write, respond with status
-    BOOT_ERASE = 0x0F8,             //Erase a partition
-
     /* Command Messages */
     CMD_START_DATA = 0x100,         //TODO
     CMD_DISABLE_OUTPUT = 0x101,     //Takes precedence over enable output
@@ -52,6 +41,17 @@ enum class MessageType {
     DATA_BATTERY_STATE = 0x200,
     DATA_BATTERY_STATE_EXT_1 = 0x201,
     DATA_BATTERY_STATE_EXT_2 = 0x202,
+    
+    /* Bootloader Messages */
+    BOOT_SET_KEY = 0x301,           //Command: Set key for firmware decryption
+    BOOT_PARTITION_LENGTH = 0x302,  //Request / Response: flash partition length
+    BOOT_READ = 0x303,              //Request to read flash data from a node, max 2048 bytes at a time
+    BOOT_READ_DATA = 0x304,         //Response: 8 bytes of requested data, position determined by "index"
+    BOOT_READ_END = 0x305,
+    BOOT_WRITE = 0x306,             //Start a write operation, max 2048 bytes at a time
+    BOOT_WRITE_DATA = 0x307,        //Indexed data, 8 bytes
+    BOOT_WRITE_END = 0x308,         //Command / Response: Finish write, respond with status
+    BOOT_ERASE = 0x309,             //Erase a partition
 };
 
 inline uint8_t node_id_from_eid(uint32_t EID){

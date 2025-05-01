@@ -24,7 +24,7 @@ child_node_info& Main_Node::getNodeFromIDAndUpdate(node_id_t node_id) {
     return node;
 }
 
-void Main_Node::recvd_data_battery_state(battery_state_msg msg) {
+void Main_Node::recvd_data_battery_state(battery_state_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
     node_info.battery_state = msg.state();
@@ -34,7 +34,7 @@ void Main_Node::recvd_data_battery_state(battery_state_msg msg) {
     node_info.temperature = (float) (msg.temperature() / 10.) - 273.15; //Int 0.1K to float deg C
 }
 
-void Main_Node::recvd_data_battery_state_ext_1(battery_state_ext_1_msg msg) {
+void Main_Node::recvd_data_battery_state_ext_1(battery_state_ext_1_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
     node_info.avg_current = msg.avg_current() / 1000.; //Int mA to float A
@@ -43,7 +43,7 @@ void Main_Node::recvd_data_battery_state_ext_1(battery_state_ext_1_msg msg) {
     node_info.avg_power = (float) msg.avg_power() / 10.; //Int mW to float W
 }
 
-void Main_Node::recvd_data_battery_state_ext_2(battery_state_ext_2_msg msg) {
+void Main_Node::recvd_data_battery_state_ext_2(battery_state_ext_2_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
     node_info.time_to_empty = msg.time_to_empty(); //Minutes
@@ -52,28 +52,28 @@ void Main_Node::recvd_data_battery_state_ext_2(battery_state_ext_2_msg msg) {
     node_info.capacity_full = (float) msg.capacity_full() / 1000.; //Int mAh to float Ah
 }
 
-void Main_Node::recvd_ctrl_guid(ctrl_guid_msg msg) {
+void Main_Node::recvd_ctrl_guid(ctrl_guid_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
     if(msg.index() == 0)
         node_info.guid64 = msg.guid();
 }
 
-void Main_Node::recvd_elec_type(ctrl_elec_type_msg msg) {
+void Main_Node::recvd_elec_type(ctrl_elec_type_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
     for(uint8_t i = 0; i < msg.MSG_LEN_BYTES; i++)
         node_info.elec_type[i] = msg.data8[i];
 }
 
-void Main_Node::recvd_hw_type(ctrl_hw_type_msg msg) {
+void Main_Node::recvd_hw_type(ctrl_hw_type_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
     for(uint8_t i = 0; i < msg.MSG_LEN_BYTES; i++)
         node_info.hw_type[i] = msg.data8[i];
 }
 
-void Main_Node::recvd_fw_version(ctrl_fw_version_msg msg) {
+void Main_Node::recvd_fw_version(ctrl_fw_version_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
     uint8_t max_index = ((child_node_info::FW_VERSION_SIZE) / msg.MSG_LEN_BYTES);
@@ -85,18 +85,18 @@ void Main_Node::recvd_fw_version(ctrl_fw_version_msg msg) {
     //TODO: "valid" indicator?
 }
 
-void Main_Node::recvd_ctrl_poll_node_id(ctrl_poll_node_id_msg msg) {
+void Main_Node::recvd_ctrl_poll_node_id(ctrl_poll_node_id_msg& msg) {
     if(msg.EID.node_id != 0xFF)
         getNodeFromIDAndUpdate(msg.EID.node_id);
 }
 
-void Main_Node::recvd_fw_mode(ctrl_fw_mode_msg msg) { 
+void Main_Node::recvd_fw_mode(ctrl_fw_mode_msg& msg) { 
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
     node_info.is_bootloader_active = msg.is_bootloader();
 }
 
-void Main_Node::recvd_boot_partition_length(boot_partition_length_msg msg) {
+void Main_Node::recvd_boot_partition_length(boot_partition_length_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
     if(node_info.bootloader_action == boot_action_t::PARTITION_LENGTH){
@@ -106,7 +106,7 @@ void Main_Node::recvd_boot_partition_length(boot_partition_length_msg msg) {
     }
 }
 
-void Main_Node::recvd_boot_read_data(boot_read_data_msg msg) {
+void Main_Node::recvd_boot_read_data(boot_read_data_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
     if(node_info.bootloader_action == boot_action_t::READ){
@@ -122,7 +122,7 @@ void Main_Node::recvd_boot_read_data(boot_read_data_msg msg) {
     }
 }
 
-void Main_Node::recvd_boot_read_end(boot_read_end_msg msg) {
+void Main_Node::recvd_boot_read_end(boot_read_end_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
     
     if(node_info.bootloader_action == boot_action_t::READ){
@@ -135,7 +135,7 @@ void Main_Node::recvd_boot_read_end(boot_read_end_msg msg) {
     }
 }
 
-void Main_Node::recvd_boot_write_end(boot_write_end_msg msg) {
+void Main_Node::recvd_boot_write_end(boot_write_end_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
     if(node_info.bootloader_action == boot_action_t::WRITE){
@@ -144,7 +144,7 @@ void Main_Node::recvd_boot_write_end(boot_write_end_msg msg) {
     }
 }
 
-void Main_Node::recvd_boot_erase(boot_erase_msg msg) {
+void Main_Node::recvd_boot_erase(boot_erase_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
     if(node_info.bootloader_action == boot_action_t::ERASE){

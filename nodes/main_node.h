@@ -108,22 +108,22 @@ protected:
     void startAcquire(bool should_clear_ids);
     void stopAcquire();
     
-    void recvd_data_battery_state(battery_state_msg msg) override;
-    void recvd_data_battery_state_ext_1(battery_state_ext_1_msg msg) override;
-    void recvd_data_battery_state_ext_2(battery_state_ext_2_msg msg) override;
-    void recvd_ctrl_poll_node_id(ctrl_poll_node_id_msg msg) override;
+    void recvd_data_battery_state(battery_state_msg& msg) override;
+    void recvd_data_battery_state_ext_1(battery_state_ext_1_msg& msg) override;
+    void recvd_data_battery_state_ext_2(battery_state_ext_2_msg& msg) override;
+    void recvd_ctrl_poll_node_id(ctrl_poll_node_id_msg& msg) override;
 
-    void recvd_boot_partition_length(boot_partition_length_msg msg) override;
-    void recvd_boot_read_data(boot_read_data_msg msg) override;
-    void recvd_boot_read_end(boot_read_end_msg msg) override;
-    void recvd_boot_write_end(boot_write_end_msg msg) override;
-    void recvd_boot_erase(boot_erase_msg msg) override;
+    void recvd_boot_partition_length(boot_partition_length_msg& msg) override;
+    void recvd_boot_read_data(boot_read_data_msg& msg) override;
+    void recvd_boot_read_end(boot_read_end_msg& msg) override;
+    void recvd_boot_write_end(boot_write_end_msg& msg) override;
+    void recvd_boot_erase(boot_erase_msg& msg) override;
     
-    void recvd_ctrl_guid(ctrl_guid_msg msg) override;
-    void recvd_elec_type(ctrl_elec_type_msg msg) override;
-    void recvd_hw_type(ctrl_hw_type_msg msg) override;
-    void recvd_fw_version(ctrl_fw_version_msg msg) override;
-    void recvd_fw_mode(ctrl_fw_mode_msg msg) override;
+    void recvd_ctrl_guid(ctrl_guid_msg& msg) override;
+    void recvd_elec_type(ctrl_elec_type_msg& msg) override;
+    void recvd_hw_type(ctrl_hw_type_msg& msg) override;
+    void recvd_fw_version(ctrl_fw_version_msg& msg) override;
+    void recvd_fw_mode(ctrl_fw_mode_msg& msg) override;
     
     std::map<node_id_t, child_node_info> child_nodes_;
 
