@@ -203,8 +203,8 @@ void Main_Node::update(bool acquire_enable, bool clear_ids, uint64_t t_now){
                 count++;
             }
 
-            //Request info if we haven't in a while
-            if(node.needsInfo(t_now)){
+            //Request info if we haven't in a while and aren't in bootloader mode
+            if(node.needsInfo(t_now) && node.bootloader_action == boot_action_t::NONE){
                 can_driver_.sendMessage(
                     ctrl_read_info_msg(pair.first, 
                         ctrl_read_info_msg::READ_GUID | 

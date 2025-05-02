@@ -27,8 +27,8 @@ struct child_node_info {
     uint8_t fw_version[16] {};
 
     //Bootloader info
-    bool is_bootloader_active { false };
-    boot_action_t bootloader_action { boot_action_t::NONE };
+    bool is_bootloader_active { false }; //Is the node in bootloader mode
+    boot_action_t bootloader_action { boot_action_t::NONE }; //Host state
     bool bootloader_has_result { false };
     status_t last_action_result { status_t::OK };
     uint32_t partition_length {0};
