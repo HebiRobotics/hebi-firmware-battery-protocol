@@ -22,6 +22,7 @@ enum class MessageType {
     CTRL_STOP_ACQUISITION = 0x004,  //Tell nodes to exit acquisition mode
     CTRL_RESET = 0x005,             //Tell a node to reset
     CTRL_SET_STAY_IN_BOOT = 0x006,  //Tell a node to stay in bootloader on next reset
+    CTRL_BOOT = 0x007,              //Tell a node to boot (if the app is valid)
 
     //Info Messages
     CTRL_READ_INFO = 0x010,         //Request info from a node

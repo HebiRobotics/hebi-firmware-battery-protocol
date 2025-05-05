@@ -65,6 +65,16 @@ struct ctrl_set_stay_in_boot_msg : public base_msg {
     bool stay_in_bootloader() { return data8[IND_STAY_IN_BOOT]; }
 };
 
+struct ctrl_boot_msg : public base_msg {
+    static const uint8_t MSG_LEN_BYTES = 0;
+
+    //Struct to raw data / raw data to struct
+    ctrl_boot_msg(uint8_t node_id) :
+        base_msg (node_id, MessageType::CTRL_BOOT) {
+            len = MSG_LEN_BYTES;
+    }
+};
+
 struct ctrl_poll_node_id_msg : public base_msg {
     static const uint8_t MSG_LEN_BYTES = 0;
 

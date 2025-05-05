@@ -22,6 +22,7 @@ protected:
     virtual void recvd_ctrl_stop_acquisition(ctrl_stop_acquisition_msg& msg) { (void) msg; }
     virtual void recvd_ctrl_reset(ctrl_reset_msg& msg) { (void) msg; }
     virtual void recvd_ctrl_set_stay_in_boot(ctrl_set_stay_in_boot_msg& msg) { (void) msg; }
+    virtual void recvd_ctrl_boot(ctrl_boot_msg& msg) { (void) msg; }
 
     virtual void recvd_ctrl_read_info(ctrl_read_info_msg& msg) { (void) msg; }
     virtual void recvd_ctrl_guid(ctrl_guid_msg& msg) { (void) msg; }
