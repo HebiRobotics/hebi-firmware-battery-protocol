@@ -113,6 +113,22 @@ bool Base_Node::tryParseMsg(base_msg &msg){
 
             return true; //Successful
         }
+        case MessageType::CTRL_APP_FW_HASH: {
+            if(msg.len != ctrl_app_fw_hash_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = ctrl_app_fw_hash_msg(node_id, index_crc, msg.data8);
+            recvd_app_fw_hash(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::CTRL_BOOT_FW_HASH: {
+            if(msg.len != ctrl_boot_fw_hash_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = ctrl_boot_fw_hash_msg(node_id, index_crc, msg.data8);
+            recvd_boot_fw_hash(parsed); //Trigger event
+
+            return true; //Successful
+        }
 
         case MessageType::BOOT_SET_KEY: {
             if(msg.len != boot_set_key_msg::MSG_LEN_BYTES) return false;

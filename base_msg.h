@@ -29,8 +29,10 @@ enum class MessageType {
     CTRL_GUID = 0x011,              //Response: STM32 UID
     CTRL_ELEC_TYPE = 0x012,         //Response: 8-character ASCII encoded Electrical Type
     CTRL_HW_TYPE = 0x013,           //Response: 8-character ASCII encoded Hardware Type
-    CTRL_FW_VERSION = 0x014,        //Response: 8 bytes of FW hash, position determined by "index" field
+    CTRL_FW_VERSION = 0x014,        //Response: 8 bytes of FW version string, position determined by "index" field
     CTRL_FW_MODE = 0x015,           //Response: FW mode (boot or application)
+    CTRL_APP_FW_HASH = 0x016,       //Response: 8 bytes of app FW hash, position determined by "index" field
+    CTRL_BOOT_FW_HASH = 0x017,      //Response: 8 bytes of boot FW hash, position determined by "index" field
     
     /* Command Messages */
     CMD_START_DATA = 0x100,         //TODO

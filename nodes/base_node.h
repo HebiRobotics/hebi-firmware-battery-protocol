@@ -30,6 +30,8 @@ protected:
     virtual void recvd_hw_type(ctrl_hw_type_msg& msg) { (void) msg; }
     virtual void recvd_fw_version(ctrl_fw_version_msg& msg) { (void) msg; }
     virtual void recvd_fw_mode(ctrl_fw_mode_msg& msg) { (void) msg; }
+    virtual void recvd_app_fw_hash(ctrl_app_fw_hash_msg& msg) { (void) msg; }
+    virtual void recvd_boot_fw_hash(ctrl_boot_fw_hash_msg& msg) { (void) msg; }
 
     virtual void recvd_boot_set_key(boot_set_key_msg& msg) { (void) msg; }
     virtual void recvd_boot_partition_length(boot_partition_length_msg& msg) { (void) msg; }

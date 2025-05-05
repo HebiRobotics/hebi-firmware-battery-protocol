@@ -94,6 +94,8 @@ struct ctrl_read_info_msg : public base_msg {
     static const uint16_t READ_HW_TYPE      = 0x01 << 2;
     static const uint16_t READ_FW_VERSION   = 0x01 << 3;
     static const uint16_t READ_FW_MODE      = 0x01 << 4;
+    static const uint16_t READ_APP_FW_HASH  = 0x01 << 5;
+    static const uint16_t READ_BOOT_FW_HASH = 0x01 << 6;
 
     //Struct to raw data / raw data to struct
     ctrl_read_info_msg(uint8_t node_id, uint16_t requested_info) :
@@ -113,6 +115,8 @@ struct ctrl_read_info_msg : public base_msg {
     bool read_HW_type() { return data16[IND_REQUEST] & READ_HW_TYPE; }
     bool read_FW_version() { return data16[IND_REQUEST] & READ_FW_VERSION; }
     bool read_FW_mode() { return data16[IND_REQUEST] & READ_FW_MODE; }
+    bool read_APP_FW_hash() { return data16[IND_REQUEST] & READ_APP_FW_HASH; }
+    bool read_BOOT_FW_hash() { return data16[IND_REQUEST] & READ_BOOT_FW_HASH; }
 };
 
 struct ctrl_guid_msg : public base_msg {
@@ -224,6 +228,26 @@ struct ctrl_fw_mode_msg : public base_msg {
 
     bool is_bootloader() { return data8[IND_MODE] == FW_MODE_BOOT; }
     bool is_application() { return data8[IND_MODE] == FW_MODE_APP; }
+};
+
+struct ctrl_app_fw_hash_msg : public base_msg {
+    static const uint8_t MSG_LEN_BYTES = 8;
+
+    //Raw data to struct
+    ctrl_app_fw_hash_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
+        base_msg(node_id, MessageType::CTRL_APP_FW_HASH, MSG_LEN_BYTES, data) {
+        //Do Nothing
+    }
+};
+
+struct ctrl_boot_fw_hash_msg : public base_msg {
+    static const uint8_t MSG_LEN_BYTES = 8;
+
+    //Raw data to struct
+    ctrl_boot_fw_hash_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
+        base_msg(node_id, MessageType::CTRL_BOOT_FW_HASH, MSG_LEN_BYTES, data) {
+        //Do Nothing
+    }
 };
 
 struct ctrl_start_acquisition_msg : public base_msg {
