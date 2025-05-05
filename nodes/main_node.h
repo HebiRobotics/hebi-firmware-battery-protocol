@@ -27,6 +27,7 @@ struct child_node_info {
     char hw_type[ELEC_TYPE_SIZE] {};
     uint8_t fw_version[FW_VERSION_SIZE] {};
     uint8_t app_fw_hash[FW_HASH_SIZE] {};
+    uint8_t serial_number[FW_VERSION_SIZE] {};
 
     //Bootloader info
     bool is_bootloader_active { false }; //Is the node in bootloader mode
@@ -127,6 +128,7 @@ protected:
     void recvd_fw_version(ctrl_fw_version_msg& msg) override;
     void recvd_fw_mode(ctrl_fw_mode_msg& msg) override;
     void recvd_app_fw_hash(ctrl_app_fw_hash_msg& msg) override;
+    void recvd_serial_num(ctrl_serial_num_msg& msg) override;
     
     std::map<node_id_t, child_node_info> child_nodes_;
 
