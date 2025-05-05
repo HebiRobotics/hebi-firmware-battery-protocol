@@ -129,6 +129,14 @@ bool Base_Node::tryParseMsg(base_msg &msg){
 
             return true; //Successful
         }
+        case MessageType::CTRL_SERIAL_NUM: {
+            if(msg.len != ctrl_serial_num_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = ctrl_serial_num_msg(node_id, index_crc, msg.data8);
+            recvd_serial_num(parsed); //Trigger event
+
+            return true; //Successful
+        }
 
         case MessageType::BOOT_SET_KEY: {
             if(msg.len != boot_set_key_msg::MSG_LEN_BYTES) return false;
@@ -199,6 +207,14 @@ bool Base_Node::tryParseMsg(base_msg &msg){
 
             auto parsed = boot_erase_msg(node_id, msg.data8);
             recvd_boot_erase(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::BOOT_SET_SERIAL_NUM: {
+            if(msg.len != boot_set_serial_num_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = boot_set_serial_num_msg(node_id, index_crc, msg.data8);
+            recvd_boot_set_serial_num(parsed); //Trigger event
 
             return true; //Successful
         }

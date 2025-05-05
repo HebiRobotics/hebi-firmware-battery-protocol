@@ -265,4 +265,28 @@ struct boot_erase_msg : public base_msg {
     status_t status() { return static_cast<status_t>(data8[IND_STATUS_8]); }
 };
 
+struct boot_set_serial_num_msg : public base_msg {
+    static const uint8_t MSG_LEN_BYTES = 8;
+
+    //String to raw data
+    boot_set_serial_num_msg(uint8_t node_id, uint8_t index, const char* string) :
+        base_msg(node_id, MessageType::BOOT_SET_SERIAL_NUM, index) {
+        len = MSG_LEN_BYTES;
+
+        //Copy string, stop at null terminator
+        for(uint8_t i = 0; i < MSG_LEN_BYTES; i++){
+            data8[i] = string[i];
+            if(string[i] == 0x00) break;
+        }
+    }
+
+    //Raw data to struct
+    boot_set_serial_num_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
+        base_msg(node_id, MessageType::BOOT_SET_SERIAL_NUM, MSG_LEN_BYTES, data, index) {
+        //Do Nothing
+    }
+
+    uint8_t index() { return EID.index_crc; }
+};
+
 } //hebi::firmware::protocol

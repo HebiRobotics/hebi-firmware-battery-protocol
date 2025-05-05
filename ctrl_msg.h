@@ -96,6 +96,7 @@ struct ctrl_read_info_msg : public base_msg {
     static const uint16_t READ_FW_MODE      = 0x01 << 4;
     static const uint16_t READ_APP_FW_HASH  = 0x01 << 5;
     static const uint16_t READ_BOOT_FW_HASH = 0x01 << 6;
+    static const uint16_t READ_SERIAL_NUM   = 0x01 << 7;
 
     //Struct to raw data / raw data to struct
     ctrl_read_info_msg(uint8_t node_id, uint16_t requested_info) :
@@ -117,6 +118,7 @@ struct ctrl_read_info_msg : public base_msg {
     bool read_FW_mode() { return data16[IND_REQUEST] & READ_FW_MODE; }
     bool read_APP_FW_hash() { return data16[IND_REQUEST] & READ_APP_FW_HASH; }
     bool read_BOOT_FW_hash() { return data16[IND_REQUEST] & READ_BOOT_FW_HASH; }
+    bool read_serial_number() { return data16[IND_REQUEST] & READ_SERIAL_NUM; }
 };
 
 struct ctrl_guid_msg : public base_msg {
@@ -253,6 +255,31 @@ struct ctrl_boot_fw_hash_msg : public base_msg {
 
     uint8_t index() { return EID.index_crc; }
 };
+
+struct ctrl_serial_num_msg : public base_msg {
+    static const uint8_t MSG_LEN_BYTES = 8;
+
+    //String to raw data
+    ctrl_serial_num_msg(uint8_t node_id, uint8_t index, const char* string) :
+        base_msg(node_id, MessageType::CTRL_SERIAL_NUM, index) {
+        len = MSG_LEN_BYTES;
+
+        //Copy string, stop at null terminator
+        for(uint8_t i = 0; i < MSG_LEN_BYTES; i++){
+            data8[i] = string[i];
+            if(string[i] == 0x00) break;
+        }
+    }
+
+    //Raw data to struct
+    ctrl_serial_num_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
+        base_msg(node_id, MessageType::CTRL_SERIAL_NUM, MSG_LEN_BYTES, data, index) {
+        //Do Nothing
+    }
+
+    uint8_t index() { return EID.index_crc; }
+};
+
 
 struct ctrl_start_acquisition_msg : public base_msg {
     static const uint8_t IND_CLEAR_ID = 0;

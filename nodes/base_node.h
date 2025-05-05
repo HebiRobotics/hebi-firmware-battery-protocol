@@ -32,6 +32,7 @@ protected:
     virtual void recvd_fw_mode(ctrl_fw_mode_msg& msg) { (void) msg; }
     virtual void recvd_app_fw_hash(ctrl_app_fw_hash_msg& msg) { (void) msg; }
     virtual void recvd_boot_fw_hash(ctrl_boot_fw_hash_msg& msg) { (void) msg; }
+    virtual void recvd_serial_num(ctrl_serial_num_msg& msg) { (void) msg; }
 
     virtual void recvd_boot_set_key(boot_set_key_msg& msg) { (void) msg; }
     virtual void recvd_boot_partition_length(boot_partition_length_msg& msg) { (void) msg; }
@@ -42,6 +43,7 @@ protected:
     virtual void recvd_boot_write_data(boot_write_data_msg& msg) { (void) msg; }
     virtual void recvd_boot_write_end(boot_write_end_msg& msg) { (void) msg; }
     virtual void recvd_boot_erase(boot_erase_msg& msg) { (void) msg; }
+    virtual void recvd_boot_set_serial_num(boot_set_serial_num_msg& msg) { (void) msg; }
 
     virtual void recvd_cmd_start_data(cmd_start_data_msg& msg) { (void) msg; }
     virtual void recvd_cmd_set_led(cmd_set_led_msg& msg) { (void) msg; }

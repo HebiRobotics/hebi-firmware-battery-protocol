@@ -33,6 +33,7 @@ enum class MessageType {
     CTRL_FW_MODE = 0x015,           //Response: FW mode (boot or application)
     CTRL_APP_FW_HASH = 0x016,       //Response: 8 bytes of app FW hash, position determined by "index" field
     CTRL_BOOT_FW_HASH = 0x017,      //Response: 8 bytes of boot FW hash, position determined by "index" field
+    CTRL_SERIAL_NUM = 0x018,        //Response: 8 bytes of serial number string, position determined by "index" field
     
     /* Command Messages */
     CMD_START_DATA = 0x100,         //TODO
@@ -54,7 +55,8 @@ enum class MessageType {
     BOOT_WRITE = 0x306,             //Start a write operation, max 2048 bytes at a time
     BOOT_WRITE_DATA = 0x307,        //Indexed data, 8 bytes
     BOOT_WRITE_END = 0x308,         //Command / Response: Finish write, respond with status
-    BOOT_ERASE = 0x309,             //Erase a partition
+    BOOT_ERASE = 0x309,             //Command / Response: Erase a partition
+    BOOT_SET_SERIAL_NUM = 0x30A,    //Command: Set the serial number string, indexed data
 };
 
 inline uint8_t node_id_from_eid(uint32_t EID){
