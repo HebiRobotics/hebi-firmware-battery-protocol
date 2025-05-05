@@ -51,14 +51,14 @@ struct ctrl_set_stay_in_boot_msg : public base_msg {
     ctrl_set_stay_in_boot_msg(
         uint8_t node_id, 
         bool stay_in_boot) :
-        base_msg (node_id, MessageType::CTRL_SET_NODE_ID) {
+        base_msg (node_id, MessageType::CTRL_SET_STAY_IN_BOOT) {
             len = MSG_LEN_BYTES;
             data8[IND_STAY_IN_BOOT] = stay_in_boot;
     }
 
     //Raw data to struct
     ctrl_set_stay_in_boot_msg(uint8_t node_id, uint8_t data[8]) :
-        base_msg(node_id, MessageType::CTRL_SET_NODE_ID, MSG_LEN_BYTES, data) {
+        base_msg(node_id, MessageType::CTRL_SET_STAY_IN_BOOT, MSG_LEN_BYTES, data) {
         //Do Nothing
     }
 
