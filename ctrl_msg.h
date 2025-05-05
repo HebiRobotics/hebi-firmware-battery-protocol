@@ -235,9 +235,11 @@ struct ctrl_app_fw_hash_msg : public base_msg {
 
     //Raw data to struct
     ctrl_app_fw_hash_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
-        base_msg(node_id, MessageType::CTRL_APP_FW_HASH, MSG_LEN_BYTES, data) {
+        base_msg(node_id, MessageType::CTRL_APP_FW_HASH, MSG_LEN_BYTES, data, index) {
         //Do Nothing
     }
+
+    uint8_t index() { return EID.index_crc; }
 };
 
 struct ctrl_boot_fw_hash_msg : public base_msg {
@@ -245,9 +247,11 @@ struct ctrl_boot_fw_hash_msg : public base_msg {
 
     //Raw data to struct
     ctrl_boot_fw_hash_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
-        base_msg(node_id, MessageType::CTRL_BOOT_FW_HASH, MSG_LEN_BYTES, data) {
+        base_msg(node_id, MessageType::CTRL_BOOT_FW_HASH, MSG_LEN_BYTES, data, index) {
         //Do Nothing
     }
+
+    uint8_t index() { return EID.index_crc; }
 };
 
 struct ctrl_start_acquisition_msg : public base_msg {

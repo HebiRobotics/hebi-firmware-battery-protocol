@@ -85,6 +85,17 @@ void Main_Node::recvd_fw_version(ctrl_fw_version_msg& msg) {
     //TODO: "valid" indicator?
 }
 
+void Main_Node::recvd_app_fw_hash(ctrl_app_fw_hash_msg& msg) {
+    child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
+
+    uint8_t max_index = ((child_node_info::FW_HASH_SIZE) / msg.MSG_LEN_BYTES);
+
+    if(msg.index() < max_index)
+        for(uint8_t i = 0; i < msg.MSG_LEN_BYTES; i++)
+            node_info.app_fw_hash[i + (msg.index() * msg.MSG_LEN_BYTES)] = msg.data8[i];
+
+}
+
 void Main_Node::recvd_ctrl_poll_node_id(ctrl_poll_node_id_msg& msg) {
     if(msg.EID.node_id != 0xFF)
         getNodeFromIDAndUpdate(msg.EID.node_id);
@@ -211,7 +222,8 @@ void Main_Node::update(bool acquire_enable, bool clear_ids, uint64_t t_now){
                         ctrl_read_info_msg::READ_ELEC_TYPE | 
                         ctrl_read_info_msg::READ_HW_TYPE | 
                         ctrl_read_info_msg::READ_FW_VERSION | 
-                        ctrl_read_info_msg::READ_FW_MODE
+                        ctrl_read_info_msg::READ_FW_MODE | 
+                        ctrl_read_info_msg::READ_APP_FW_HASH
                     ));
                 node.t_last_info = t_now;
             }

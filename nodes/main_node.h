@@ -13,8 +13,9 @@ namespace hebi::firmware::protocol {
 struct child_node_info {
     static constexpr uint8_t ELEC_TYPE_SIZE = 8 + 1; /* 8 char, 1 null */
     static constexpr uint8_t FW_VERSION_SIZE = 16 + 1; /* 16 char, 1 null */
+    static constexpr uint8_t FW_HASH_SIZE = 16; /* MD5 hash, 16 bytes */
     static constexpr uint64_t T_STALE_MICROS = 3000 * 1000; /* 3000ms */
-    static constexpr uint64_t T_INFO_MICROS = 5 * 1000 * 1000; /* 5s */
+    static constexpr uint64_t T_INFO_MICROS = 1 * 1000 * 1000; /* 5s */
     static constexpr uint32_t MAX_BOOTLOADER_READ_SIZE = 512;
 
     uint64_t t_last_update {};
@@ -24,7 +25,8 @@ struct child_node_info {
     uint64_t guid64 {};
     char elec_type[ELEC_TYPE_SIZE] {};
     char hw_type[ELEC_TYPE_SIZE] {};
-    uint8_t fw_version[16] {};
+    uint8_t fw_version[FW_VERSION_SIZE] {};
+    uint8_t app_fw_hash[FW_HASH_SIZE] {};
 
     //Bootloader info
     bool is_bootloader_active { false }; //Is the node in bootloader mode
@@ -124,6 +126,7 @@ protected:
     void recvd_hw_type(ctrl_hw_type_msg& msg) override;
     void recvd_fw_version(ctrl_fw_version_msg& msg) override;
     void recvd_fw_mode(ctrl_fw_mode_msg& msg) override;
+    void recvd_app_fw_hash(ctrl_app_fw_hash_msg& msg) override;
     
     std::map<node_id_t, child_node_info> child_nodes_;
 
@@ -131,7 +134,7 @@ protected:
     const uint16_t ACQUIRE_POLL_TIME_MS = 500; 
     const uint16_t ACQUIRE_POLL_PERIOD_MS = 100; 
     const uint16_t ACQUIRE_SET_PERIOD_MS = 100; 
-    const uint16_t NORMAL_PERIOD_MS = 1000; 
+    const uint16_t NORMAL_PERIOD_MS = 500; 
 
     uint64_t t_last_update_ {0};
     DriverState state_ {DriverState::INIT};
