@@ -56,6 +56,14 @@ bool Base_Node::tryParseMsg(base_msg &msg){
 
             return true; //Successful
         }
+        case MessageType::CTRL_BOOT: {
+            if(msg.len != ctrl_boot_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = ctrl_boot_msg(node_id);
+            recvd_ctrl_boot(parsed); //Trigger event
+
+            return true; //Successful
+        }
 
         case MessageType::CTRL_READ_INFO: {
             if(msg.len != ctrl_read_info_msg::MSG_LEN_BYTES) return false;
