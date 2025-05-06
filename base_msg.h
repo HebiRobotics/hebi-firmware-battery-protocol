@@ -77,7 +77,7 @@ struct base_msg {
         struct {
             uint32_t node_id:8;     //Logical UID for this node
             uint32_t msg_type:12;   //Defined with "MessageType" enum
-            uint32_t index_crc:8;   //Byte index or CRC depending on message type
+            uint32_t index:8;   //Byte index
             uint32_t rsvd:1;        //TODO: Assign these
             uint32_t invalid:3;     //Pad to 32 bits
         };
@@ -97,15 +97,15 @@ struct base_msg {
         data32[1] = 0;
     }
 
-    base_msg (uint8_t node_id_, MessageType msg_type_, uint8_t index_crc = 0){
+    base_msg (uint8_t node_id_, MessageType msg_type_, uint8_t index = 0){
         EID.rsvd = 0;
         EID.node_id = node_id_;
         EID.msg_type = static_cast<uint16_t>(msg_type_);
-        EID.index_crc = index_crc;
+        EID.index = index;
     }
 
-    base_msg (uint8_t node_id_, MessageType msg_type_, uint8_t len_, const uint8_t data[8], uint8_t index_crc = 0) :
-        base_msg(node_id_, msg_type_, index_crc){
+    base_msg (uint8_t node_id_, MessageType msg_type_, uint8_t len_, const uint8_t data[8], uint8_t index = 0) :
+        base_msg(node_id_, msg_type_, index){
         len = len_;
         
         //TODO: Make more efficient? MEMCPY?

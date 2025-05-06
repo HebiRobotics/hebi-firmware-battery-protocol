@@ -40,7 +40,7 @@ struct boot_set_key_msg : public base_msg {
         //Do Nothing
     }
 
-    uint8_t index() { return EID.index_crc; }
+    uint8_t index() { return EID.index; }
 };
 
 struct boot_partition_length_msg : public base_msg {
@@ -113,7 +113,7 @@ struct boot_read_data_msg : public base_msg {
         //Do Nothing
     }
 
-    uint8_t index() { return EID.index_crc; }
+    uint8_t index() { return EID.index; }
 };
 
 struct boot_read_end_msg : public base_msg {
@@ -196,7 +196,7 @@ struct boot_write_data_msg : public base_msg {
         //Do Nothing
     }
 
-    uint8_t index() { return EID.index_crc; }
+    uint8_t index() { return EID.index; }
 };
 
 struct boot_write_end_msg : public base_msg {
@@ -286,7 +286,7 @@ struct boot_set_serial_num_msg : public base_msg {
         //Do Nothing
     }
 
-    uint8_t index() { return EID.index_crc; }
+    uint8_t index() { return EID.index; }
 };
 
 } //hebi::firmware::protocol

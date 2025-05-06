@@ -138,7 +138,7 @@ struct ctrl_guid_msg : public base_msg {
     }
 
     uint64_t guid() { return data64; }
-    uint8_t index() { return EID.index_crc; }
+    uint8_t index() { return EID.index; }
 };
 
 struct ctrl_elec_type_msg : public base_msg {
@@ -206,7 +206,7 @@ struct ctrl_fw_version_msg : public base_msg {
         //Do Nothing
     }
 
-    uint8_t index() { return EID.index_crc; }
+    uint8_t index() { return EID.index; }
 };
 
 struct ctrl_fw_mode_msg : public base_msg {
@@ -241,7 +241,7 @@ struct ctrl_app_fw_hash_msg : public base_msg {
         //Do Nothing
     }
 
-    uint8_t index() { return EID.index_crc; }
+    uint8_t index() { return EID.index; }
 };
 
 struct ctrl_boot_fw_hash_msg : public base_msg {
@@ -253,7 +253,7 @@ struct ctrl_boot_fw_hash_msg : public base_msg {
         //Do Nothing
     }
 
-    uint8_t index() { return EID.index_crc; }
+    uint8_t index() { return EID.index; }
 };
 
 struct ctrl_serial_num_msg : public base_msg {
@@ -277,7 +277,7 @@ struct ctrl_serial_num_msg : public base_msg {
         //Do Nothing
     }
 
-    uint8_t index() { return EID.index_crc; }
+    uint8_t index() { return EID.index; }
 };
 
 

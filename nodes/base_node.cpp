@@ -5,7 +5,7 @@ using namespace hebi::firmware::protocol;
 bool Base_Node::tryParseMsg(base_msg &msg){
     auto msg_type = msg_type_from_eid(msg.EID.raw);
     auto node_id = node_id_from_eid(msg.EID.raw);
-    auto index_crc = index_crc_from_eid(msg.EID.raw);
+    auto index = index_crc_from_eid(msg.EID.raw);
     
     switch(msg_type){
         case MessageType::CTRL_SET_NODE_ID: {
@@ -76,7 +76,7 @@ bool Base_Node::tryParseMsg(base_msg &msg){
         case MessageType::CTRL_GUID: {
             if(msg.len != ctrl_guid_msg::MSG_LEN_BYTES) return false;
 
-            auto parsed = ctrl_guid_msg(node_id, index_crc, msg.data8);
+            auto parsed = ctrl_guid_msg(node_id, index, msg.data8);
             recvd_ctrl_guid(parsed); //Trigger event
 
             return true; //Successful
@@ -100,7 +100,7 @@ bool Base_Node::tryParseMsg(base_msg &msg){
         case MessageType::CTRL_FW_VERSION: {
             if(msg.len != ctrl_fw_version_msg::MSG_LEN_BYTES) return false;
 
-            auto parsed = ctrl_fw_version_msg(node_id, index_crc, msg.data8);
+            auto parsed = ctrl_fw_version_msg(node_id, index, msg.data8);
             recvd_fw_version(parsed); //Trigger event
 
             return true; //Successful
@@ -108,7 +108,7 @@ bool Base_Node::tryParseMsg(base_msg &msg){
         case MessageType::CTRL_FW_MODE: {
             if(msg.len != ctrl_fw_mode_msg::MSG_LEN_BYTES) return false;
 
-            auto parsed = ctrl_fw_mode_msg(node_id, index_crc, msg.data8);
+            auto parsed = ctrl_fw_mode_msg(node_id, index, msg.data8);
             recvd_fw_mode(parsed); //Trigger event
 
             return true; //Successful
@@ -116,7 +116,7 @@ bool Base_Node::tryParseMsg(base_msg &msg){
         case MessageType::CTRL_APP_FW_HASH: {
             if(msg.len != ctrl_app_fw_hash_msg::MSG_LEN_BYTES) return false;
 
-            auto parsed = ctrl_app_fw_hash_msg(node_id, index_crc, msg.data8);
+            auto parsed = ctrl_app_fw_hash_msg(node_id, index, msg.data8);
             recvd_app_fw_hash(parsed); //Trigger event
 
             return true; //Successful
@@ -124,7 +124,7 @@ bool Base_Node::tryParseMsg(base_msg &msg){
         case MessageType::CTRL_BOOT_FW_HASH: {
             if(msg.len != ctrl_boot_fw_hash_msg::MSG_LEN_BYTES) return false;
 
-            auto parsed = ctrl_boot_fw_hash_msg(node_id, index_crc, msg.data8);
+            auto parsed = ctrl_boot_fw_hash_msg(node_id, index, msg.data8);
             recvd_boot_fw_hash(parsed); //Trigger event
 
             return true; //Successful
@@ -132,7 +132,7 @@ bool Base_Node::tryParseMsg(base_msg &msg){
         case MessageType::CTRL_SERIAL_NUM: {
             if(msg.len != ctrl_serial_num_msg::MSG_LEN_BYTES) return false;
 
-            auto parsed = ctrl_serial_num_msg(node_id, index_crc, msg.data8);
+            auto parsed = ctrl_serial_num_msg(node_id, index, msg.data8);
             recvd_serial_num(parsed); //Trigger event
 
             return true; //Successful
@@ -141,7 +141,7 @@ bool Base_Node::tryParseMsg(base_msg &msg){
         case MessageType::BOOT_SET_KEY: {
             if(msg.len != boot_set_key_msg::MSG_LEN_BYTES) return false;
 
-            auto parsed = boot_set_key_msg(node_id, index_crc, msg.data8);
+            auto parsed = boot_set_key_msg(node_id, index, msg.data8);
             recvd_boot_set_key(parsed); //Trigger event
 
             return true; //Successful
@@ -165,7 +165,7 @@ bool Base_Node::tryParseMsg(base_msg &msg){
         case MessageType::BOOT_READ_DATA: {
             if(msg.len != boot_read_data_msg::MSG_LEN_BYTES) return false;
 
-            auto parsed = boot_read_data_msg(node_id, index_crc, msg.data8);
+            auto parsed = boot_read_data_msg(node_id, index, msg.data8);
             recvd_boot_read_data(parsed); //Trigger event
 
             return true; //Successful
@@ -189,7 +189,7 @@ bool Base_Node::tryParseMsg(base_msg &msg){
         case MessageType::BOOT_WRITE_DATA: {
             if(msg.len != boot_write_data_msg::MSG_LEN_BYTES) return false;
 
-            auto parsed = boot_write_data_msg(node_id, index_crc, msg.data8);
+            auto parsed = boot_write_data_msg(node_id, index, msg.data8);
             recvd_boot_write_data(parsed); //Trigger event
 
             return true; //Successful
@@ -213,7 +213,7 @@ bool Base_Node::tryParseMsg(base_msg &msg){
         case MessageType::BOOT_SET_SERIAL_NUM: {
             if(msg.len != boot_set_serial_num_msg::MSG_LEN_BYTES) return false;
 
-            auto parsed = boot_set_serial_num_msg(node_id, index_crc, msg.data8);
+            auto parsed = boot_set_serial_num_msg(node_id, index, msg.data8);
             recvd_boot_set_serial_num(parsed); //Trigger event
 
             return true; //Successful
