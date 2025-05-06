@@ -55,56 +55,50 @@ void Main_Node::recvd_data_battery_state_ext_2(battery_state_ext_2_msg& msg) {
 void Main_Node::recvd_ctrl_guid(ctrl_guid_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
     
-    node_info.guid64 = msg.guid();
+    node_info.uid48 = msg.guid();
 }
 
 void Main_Node::recvd_elec_type(ctrl_elec_type_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
-    for(uint8_t i = 0; i < msg.MSG_LEN_BYTES; i++)
-        node_info.elec_type[i] = msg.data8[i];
+    node_info.elec_type_handler_.handleMessage(msg);
 }
 
 void Main_Node::recvd_hw_type(ctrl_hw_type_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
-    for(uint8_t i = 0; i < msg.MSG_LEN_BYTES; i++)
-        node_info.hw_type[i] = msg.data8[i];
+    node_info.hw_type_handler_.handleMessage(msg);
 }
 
 void Main_Node::recvd_fw_version(ctrl_fw_version_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
-    uint8_t max_index = ((child_node_info::FW_VERSION_SIZE) / msg.MSG_LEN_BYTES);
-
-    if(msg.index() < max_index)
-        for(uint8_t i = 0; i < msg.MSG_LEN_BYTES; i++)
-            node_info.fw_version[i + (msg.index() * msg.MSG_LEN_BYTES)] = msg.data8[i];
-    
-    //TODO: "valid" indicator?
+    node_info.fw_version_handler_.handleMessage(msg);
 }
 
 void Main_Node::recvd_app_fw_hash(ctrl_app_fw_hash_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
-    uint8_t max_index = ((child_node_info::FW_HASH_SIZE) / msg.MSG_LEN_BYTES);
-
-    if(msg.index() < max_index)
-        for(uint8_t i = 0; i < msg.MSG_LEN_BYTES; i++)
-            node_info.app_fw_hash[i + (msg.index() * msg.MSG_LEN_BYTES)] = msg.data8[i];
+    node_info.app_fw_hash_handler_.handleMessage(msg);
 
 }
 
 void Main_Node::recvd_serial_num(ctrl_serial_num_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
-    uint8_t max_index = ((child_node_info::FW_VERSION_SIZE) / msg.MSG_LEN_BYTES);
+    node_info.serial_number_handler_.handleMessage(msg);
+}
 
-    if(msg.index() < max_index)
-        for(uint8_t i = 0; i < msg.MSG_LEN_BYTES; i++)
-            node_info.serial_number[i + (msg.index() * msg.MSG_LEN_BYTES)] = msg.data8[i];
-    
-    //TODO: "valid" indicator?
+void Main_Node::recvd_hw_rev(ctrl_hw_rev_msg& msg){
+    child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
+
+    node_info.hw_rev_handler_.handleMessage(msg);
+}
+
+void Main_Node::recvd_elec_rev(ctrl_elec_rev_msg& msg){
+    child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
+
+    node_info.elec_rev_handler_.handleMessage(msg);
 }
 
 void Main_Node::recvd_ctrl_poll_node_id(ctrl_poll_node_id_msg& msg) {
@@ -235,7 +229,9 @@ void Main_Node::update(bool acquire_enable, bool clear_ids, uint64_t t_now){
                         ctrl_read_info_msg::READ_FW_VERSION | 
                         ctrl_read_info_msg::READ_FW_MODE | 
                         ctrl_read_info_msg::READ_APP_FW_HASH | 
-                        ctrl_read_info_msg::READ_SERIAL_NUM
+                        ctrl_read_info_msg::READ_SERIAL_NUM | 
+                        ctrl_read_info_msg::READ_HW_REV | 
+                        ctrl_read_info_msg::READ_ELEC_REV
                     ));
                 node.t_last_info = t_now;
             }
