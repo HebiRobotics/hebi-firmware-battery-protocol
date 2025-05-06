@@ -140,8 +140,10 @@ struct string_msg : public base_msg {
         if(string_index < str_len){
             // Copy MSG_LEN_BYTES of string, stopping at null terminator in string
             strncpy((char*) data8, &string[string_index], MSG_LEN_BYTES);
+        } else {
+            //Else - empty message. Signifies end of string.
+            memset(data8, 0, MSG_LEN_BYTES);
         }
-        //else: data is default initialized to all zeros by base_msg constructor
     }
 
     //Raw data to struct
