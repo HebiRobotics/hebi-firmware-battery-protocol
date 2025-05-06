@@ -65,7 +65,7 @@ bool Base_Node::tryParseMsg(base_msg &msg){
             return true; //Successful
         }
 
-        case MessageType::CTRL_READ_INFO: {
+        case MessageType::INFO_READ: {
             if(msg.len != ctrl_read_info_msg::MSG_LEN_BYTES) return false;
 
             auto parsed = ctrl_read_info_msg(node_id, msg.data8);
@@ -73,31 +73,31 @@ bool Base_Node::tryParseMsg(base_msg &msg){
 
             return true; //Successful
         }
-        case MessageType::CTRL_GUID: {
+        case MessageType::INFO_GUID: {
             if(msg.len != ctrl_guid_msg::MSG_LEN_BYTES) return false;
 
-            auto parsed = ctrl_guid_msg(node_id, index, msg.data8);
+            auto parsed = ctrl_guid_msg(node_id, msg.data8);
             recvd_ctrl_guid(parsed); //Trigger event
 
             return true; //Successful
         }
-        case MessageType::CTRL_ELEC_TYPE: {
+        case MessageType::INFO_ELEC_TYPE: {
             if(msg.len != ctrl_elec_type_msg::MSG_LEN_BYTES) return false;
 
-            auto parsed = ctrl_elec_type_msg(node_id, msg.data8);
+            auto parsed = ctrl_elec_type_msg(node_id, index, msg.data8);
             recvd_elec_type(parsed); //Trigger event
 
             return true; //Successful
         }
-        case MessageType::CTRL_HW_TYPE: {
+        case MessageType::INFO_HW_TYPE: {
             if(msg.len != ctrl_hw_type_msg::MSG_LEN_BYTES) return false;
 
-            auto parsed = ctrl_hw_type_msg(node_id, msg.data8);
+            auto parsed = ctrl_hw_type_msg(node_id, index, msg.data8);
             recvd_hw_type(parsed); //Trigger event
 
             return true; //Successful
         }
-        case MessageType::CTRL_FW_VERSION: {
+        case MessageType::INFO_FW_VERSION: {
             if(msg.len != ctrl_fw_version_msg::MSG_LEN_BYTES) return false;
 
             auto parsed = ctrl_fw_version_msg(node_id, index, msg.data8);
@@ -105,7 +105,7 @@ bool Base_Node::tryParseMsg(base_msg &msg){
 
             return true; //Successful
         }
-        case MessageType::CTRL_FW_MODE: {
+        case MessageType::INFO_FW_MODE: {
             if(msg.len != ctrl_fw_mode_msg::MSG_LEN_BYTES) return false;
 
             auto parsed = ctrl_fw_mode_msg(node_id, index, msg.data8);
@@ -113,7 +113,7 @@ bool Base_Node::tryParseMsg(base_msg &msg){
 
             return true; //Successful
         }
-        case MessageType::CTRL_APP_FW_HASH: {
+        case MessageType::INFO_APP_FW_HASH: {
             if(msg.len != ctrl_app_fw_hash_msg::MSG_LEN_BYTES) return false;
 
             auto parsed = ctrl_app_fw_hash_msg(node_id, index, msg.data8);
@@ -121,7 +121,7 @@ bool Base_Node::tryParseMsg(base_msg &msg){
 
             return true; //Successful
         }
-        case MessageType::CTRL_BOOT_FW_HASH: {
+        case MessageType::INFO_BOOT_FW_HASH: {
             if(msg.len != ctrl_boot_fw_hash_msg::MSG_LEN_BYTES) return false;
 
             auto parsed = ctrl_boot_fw_hash_msg(node_id, index, msg.data8);
@@ -129,11 +129,27 @@ bool Base_Node::tryParseMsg(base_msg &msg){
 
             return true; //Successful
         }
-        case MessageType::CTRL_SERIAL_NUM: {
+        case MessageType::INFO_SERIAL_NUM: {
             if(msg.len != ctrl_serial_num_msg::MSG_LEN_BYTES) return false;
 
             auto parsed = ctrl_serial_num_msg(node_id, index, msg.data8);
             recvd_serial_num(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::INFO_HW_REV: {
+            if(msg.len != ctrl_hw_rev_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = ctrl_hw_rev_msg(node_id, index, msg.data8);
+            recvd_hw_rev(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::INFO_ELEC_REV: {
+            if(msg.len != ctrl_elec_rev_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = ctrl_elec_rev_msg(node_id, index, msg.data8);
+            recvd_elec_rev(parsed); //Trigger event
 
             return true; //Successful
         }

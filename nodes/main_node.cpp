@@ -54,9 +54,8 @@ void Main_Node::recvd_data_battery_state_ext_2(battery_state_ext_2_msg& msg) {
 
 void Main_Node::recvd_ctrl_guid(ctrl_guid_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
-
-    if(msg.index() == 0)
-        node_info.guid64 = msg.guid();
+    
+    node_info.guid64 = msg.guid();
 }
 
 void Main_Node::recvd_elec_type(ctrl_elec_type_msg& msg) {

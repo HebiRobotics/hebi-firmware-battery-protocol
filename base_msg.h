@@ -24,17 +24,6 @@ enum class MessageType {
     CTRL_RESET = 0x005,             //Tell a node to reset
     CTRL_SET_STAY_IN_BOOT = 0x006,  //Tell a node to stay in bootloader on next reset
     CTRL_BOOT = 0x007,              //Tell a node to boot (if the app is valid)
-
-    //Info Messages
-    CTRL_READ_INFO = 0x010,         //Request info from a node
-    CTRL_GUID = 0x011,              //Response: STM32 UID
-    CTRL_ELEC_TYPE = 0x012,         //Response: 8-character ASCII encoded Electrical Type
-    CTRL_HW_TYPE = 0x013,           //Response: 8-character ASCII encoded Hardware Type
-    CTRL_FW_VERSION = 0x014,        //Response: 8 bytes of FW version string, position determined by "index" field
-    CTRL_FW_MODE = 0x015,           //Response: FW mode (boot or application)
-    CTRL_APP_FW_HASH = 0x016,       //Response: 8 bytes of app FW hash, position determined by "index" field
-    CTRL_BOOT_FW_HASH = 0x017,      //Response: 8 bytes of boot FW hash, position determined by "index" field
-    CTRL_SERIAL_NUM = 0x018,        //Response: 8 bytes of serial number string, position determined by "index" field
     
     /* Command Messages */
     CMD_START_DATA = 0x100,         //TODO
@@ -58,6 +47,19 @@ enum class MessageType {
     BOOT_WRITE_END = 0x308,         //Command / Response: Finish write, respond with status
     BOOT_ERASE = 0x309,             //Command / Response: Erase a partition
     BOOT_SET_SERIAL_NUM = 0x30A,    //Command: Set the serial number string, indexed data
+
+    /* Info Messages */
+    INFO_READ = 0x400,              //Request info from a node
+    INFO_GUID = 0x401,              //Response: STM32 UID
+    INFO_ELEC_TYPE = 0x402,         //Response: 8-character ASCII encoded Electrical Type
+    INFO_HW_TYPE = 0x403,           //Response: 8-character ASCII encoded Hardware Type
+    INFO_FW_VERSION = 0x404,        //Response: 8 bytes of FW version string, position determined by "index" field
+    INFO_FW_MODE = 0x405,           //Response: FW mode (boot or application)
+    INFO_APP_FW_HASH = 0x406,       //Response: 8 bytes of app FW hash, position determined by "index" field
+    INFO_BOOT_FW_HASH = 0x407,      //Response: 8 bytes of boot FW hash, position determined by "index" field
+    INFO_SERIAL_NUM = 0x408,        //Response: 8 bytes of serial number string, position determined by "index" field
+    INFO_HW_REV = 0x409,            //Response: 8 bytes of serial number string, position determined by "index" field
+    INFO_ELEC_REV = 0x40A,          //Response: 8 bytes of serial number string, position determined by "index" field
 };
 
 inline uint8_t node_id_from_eid(uint32_t EID){

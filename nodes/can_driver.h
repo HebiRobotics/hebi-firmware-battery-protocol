@@ -14,6 +14,7 @@ public:
     virtual void sendMessage(base_msg msg) = 0;
     virtual std::optional<base_msg> getMessage() = 0;
 
+    /* Helper function to split a string into smaller messages */
     void sendString(uint8_t node_id, MessageType msg_type, const char* string, uint16_t length){
         uint8_t n_packets = (length / string_msg::MSG_LEN_BYTES) + 1;
 

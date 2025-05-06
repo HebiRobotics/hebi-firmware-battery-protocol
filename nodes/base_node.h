@@ -33,6 +33,8 @@ protected:
     virtual void recvd_app_fw_hash(ctrl_app_fw_hash_msg& msg) { (void) msg; }
     virtual void recvd_boot_fw_hash(ctrl_boot_fw_hash_msg& msg) { (void) msg; }
     virtual void recvd_serial_num(ctrl_serial_num_msg& msg) { (void) msg; }
+    virtual void recvd_hw_rev(ctrl_hw_rev_msg& msg) { (void) msg; }
+    virtual void recvd_elec_rev(ctrl_elec_rev_msg& msg) { (void) msg; }
 
     virtual void recvd_boot_set_key(boot_set_key_msg& msg) { (void) msg; }
     virtual void recvd_boot_partition_length(boot_partition_length_msg& msg) { (void) msg; }
