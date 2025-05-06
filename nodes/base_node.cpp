@@ -234,6 +234,30 @@ bool Base_Node::tryParseMsg(base_msg &msg){
 
             return true; //Successful
         }
+        case MessageType::BOOT_SET_HW_TYPE: {
+            if(msg.len != boot_set_hw_type_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = boot_set_hw_type_msg(node_id, index, msg.data8);
+            recvd_boot_set_hw_type(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::BOOT_SET_HW_REV: {
+            if(msg.len != boot_set_hw_rev_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = boot_set_hw_rev_msg(node_id, index, msg.data8);
+            recvd_boot_set_hw_rev(parsed); //Trigger event
+
+            return true; //Successful
+        }
+        case MessageType::BOOT_SET_ELEC_REV: {
+            if(msg.len != boot_set_elec_rev_msg::MSG_LEN_BYTES) return false;
+
+            auto parsed = boot_set_elec_rev_msg(node_id, index, msg.data8);
+            recvd_boot_set_elec_rev(parsed); //Trigger event
+
+            return true; //Successful
+        }
 
         case MessageType::CMD_SET_LED: {
             if(msg.len != cmd_set_led_msg::MSG_LEN_BYTES) return false;

@@ -23,7 +23,7 @@ public:
     */
     static void getStringHash(const unsigned char* src, char* buf) {
         for (uint8_t i = 0; i < MD5_SUM_LEN; ++i){
-            buf[2*i]     = nibble2hex(src[i] >> 8);
+            buf[2*i]     = nibble2hex(src[i] >> 4);
             buf[2*i + 1] = nibble2hex(src[i]);
         }
     }

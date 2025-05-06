@@ -47,6 +47,9 @@ enum class MessageType {
     BOOT_WRITE_END = 0x308,         //Command / Response: Finish write, respond with status
     BOOT_ERASE = 0x309,             //Command / Response: Erase a partition
     BOOT_SET_SERIAL_NUM = 0x30A,    //Command: Set the serial number string, indexed data
+    BOOT_SET_HW_TYPE = 0x30B,       //Command: Set the hw type string, indexed data
+    BOOT_SET_HW_REV = 0x30C,        //Command: Set the hw rev string, indexed data
+    BOOT_SET_ELEC_REV = 0x30D,      //Command: Set the elec rev string, indexed data
 
     /* Info Messages */
     INFO_READ = 0x400,              //Request info from a node
