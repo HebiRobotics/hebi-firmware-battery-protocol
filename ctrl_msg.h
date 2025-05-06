@@ -256,28 +256,18 @@ struct ctrl_boot_fw_hash_msg : public base_msg {
     uint8_t index() { return EID.index; }
 };
 
-struct ctrl_serial_num_msg : public base_msg {
-    static const uint8_t MSG_LEN_BYTES = 8;
-
+struct ctrl_serial_num_msg : public string_msg {
     //String to raw data
-    ctrl_serial_num_msg(uint8_t node_id, uint8_t index, const char* string) :
-        base_msg(node_id, MessageType::CTRL_SERIAL_NUM, index) {
-        len = MSG_LEN_BYTES;
-
-        //Copy string, stop at null terminator
-        for(uint8_t i = 0; i < MSG_LEN_BYTES; i++){
-            data8[i] = string[i];
-            if(string[i] == 0x00) break;
-        }
+    ctrl_serial_num_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
+        string_msg(node_id, MessageType::CTRL_SERIAL_NUM, index, string, str_length) {
+        //Do Nothing
     }
 
     //Raw data to struct
     ctrl_serial_num_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
-        base_msg(node_id, MessageType::CTRL_SERIAL_NUM, MSG_LEN_BYTES, data, index) {
+        string_msg(node_id, MessageType::CTRL_SERIAL_NUM, index, data) {
         //Do Nothing
     }
-
-    uint8_t index() { return EID.index; }
 };
 
 

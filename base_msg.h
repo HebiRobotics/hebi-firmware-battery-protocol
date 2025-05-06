@@ -5,6 +5,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <cstring>
 
 
 namespace hebi::firmware::protocol {
@@ -123,6 +124,33 @@ struct base_msg {
             data8[i] = data_[i];
         }
     }
+};
+
+struct string_msg : public base_msg {
+    static const uint8_t MSG_LEN_BYTES = 8;
+
+    //String to raw data
+    string_msg(uint8_t node_id, MessageType msg_type, 
+        uint8_t index, const char* string, uint16_t str_len) :
+        base_msg(node_id, msg_type, index) {
+        len = MSG_LEN_BYTES;
+
+        uint16_t string_index = (index * MSG_LEN_BYTES);
+
+        if(string_index < str_len){
+            // Copy MSG_LEN_BYTES of string, stopping at null terminator in string
+            strncpy((char*) data8, &string[string_index], MSG_LEN_BYTES);
+        }
+        //else: data is default initialized to all zeros by base_msg constructor
+    }
+
+    //Raw data to struct
+    string_msg(uint8_t node_id, MessageType msg_type, uint8_t index, uint8_t data[8]) :
+        base_msg(node_id, msg_type, MSG_LEN_BYTES, data, index) {
+        //Do Nothing
+    }
+
+    uint8_t index() { return EID.index; }
 };
 
 }
