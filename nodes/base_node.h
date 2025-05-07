@@ -25,7 +25,7 @@ protected:
     virtual void recvd_ctrl_boot(ctrl_boot_msg& msg) { (void) msg; }
 
     virtual void recvd_ctrl_read_info(info_read_msg& msg) { (void) msg; }
-    virtual void recvd_ctrl_guid(info_guid_msg& msg) { (void) msg; }
+    virtual void recvd_guid(info_guid_msg& msg) { (void) msg; }
     virtual void recvd_elec_type(info_elec_type_msg& msg) { (void) msg; }
     virtual void recvd_hw_type(info_hw_type_msg& msg) { (void) msg; }
     virtual void recvd_fw_version(info_fw_version_msg& msg) { (void) msg; }
@@ -45,10 +45,6 @@ protected:
     virtual void recvd_boot_write_data(boot_write_data_msg& msg) { (void) msg; }
     virtual void recvd_boot_write_end(boot_write_end_msg& msg) { (void) msg; }
     virtual void recvd_boot_erase(boot_erase_msg& msg) { (void) msg; }
-    virtual void recvd_boot_set_serial_num(boot_set_serial_num_msg& msg) { (void) msg; }
-    virtual void recvd_boot_set_hw_type(boot_set_hw_type_msg& msg) { (void) msg; }
-    virtual void recvd_boot_set_hw_rev(boot_set_hw_rev_msg& msg) { (void) msg; }
-    virtual void recvd_boot_set_elec_rev(boot_set_elec_rev_msg& msg) { (void) msg; }
 
     virtual void recvd_cmd_start_data(cmd_start_data_msg& msg) { (void) msg; }
     virtual void recvd_cmd_set_led(cmd_set_led_msg& msg) { (void) msg; }

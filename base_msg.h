@@ -46,23 +46,23 @@ enum class MessageType {
     BOOT_WRITE_DATA = 0x307,        //Indexed data, 8 bytes
     BOOT_WRITE_END = 0x308,         //Command / Response: Finish write, respond with status
     BOOT_ERASE = 0x309,             //Command / Response: Erase a partition
-    BOOT_SET_SERIAL_NUM = 0x30A,    //Command: Set the serial number string, indexed data
-    BOOT_SET_HW_TYPE = 0x30B,       //Command: Set the hw type string, indexed data
-    BOOT_SET_HW_REV = 0x30C,        //Command: Set the hw rev string, indexed data
-    BOOT_SET_ELEC_REV = 0x30D,      //Command: Set the elec rev string, indexed data
+    // BOOT_SET_SERIAL_NUM = 0x30A,    //Command: Set the serial number string, indexed data
+    // BOOT_SET_HW_TYPE = 0x30B,       //Command: Set the hw type string, indexed data
+    // BOOT_SET_HW_REV = 0x30C,        //Command: Set the hw rev string, indexed data
+    // BOOT_SET_ELEC_REV = 0x30D,      //Command: Set the elec rev string, indexed data
 
     /* Info Messages */
     INFO_READ = 0x400,              //Request info from a node
     INFO_GUID = 0x401,              //Response: STM32 UID
-    INFO_ELEC_TYPE = 0x402,         //Response: 8-character ASCII encoded Electrical Type
-    INFO_HW_TYPE = 0x403,           //Response: 8-character ASCII encoded Hardware Type
-    INFO_FW_VERSION = 0x404,        //Response: 8 bytes of FW version string, position determined by "index" field
+    INFO_ELEC_TYPE = 0x402,         //Response / Set: ASCII encoded Electrical Type
+    INFO_HW_TYPE = 0x403,           //Response / Set: ASCII encoded Hardware Type
+    INFO_FW_VERSION = 0x404,        //Response / Set: ASCII encoded FW version
     INFO_FW_MODE = 0x405,           //Response: FW mode (boot or application)
-    INFO_APP_FW_HASH = 0x406,       //Response: 8 bytes of app FW hash, position determined by "index" field
-    INFO_BOOT_FW_HASH = 0x407,      //Response: 8 bytes of boot FW hash, position determined by "index" field
-    INFO_SERIAL_NUM = 0x408,        //Response: 8 bytes of serial number string, position determined by "index" field
-    INFO_HW_REV = 0x409,            //Response: 8 bytes of serial number string, position determined by "index" field
-    INFO_ELEC_REV = 0x40A,          //Response: 8 bytes of serial number string, position determined by "index" field
+    INFO_APP_FW_HASH = 0x406,       //Response: ASCII Encoded application FW Hash
+    INFO_BOOT_FW_HASH = 0x407,      //Response: ASCII Encoded bootloader FW Hash
+    INFO_SERIAL_NUM = 0x408,        //Response / Set: ASCII encoded Serial Number
+    INFO_HW_REV = 0x409,            //Response / Set: ASCII encoded Hardware Revision
+    INFO_ELEC_REV = 0x40A,          //Response / Set: ASCII encoded Electrical Revision
 };
 
 inline uint8_t node_id_from_eid(uint32_t EID){
@@ -158,6 +158,22 @@ struct string_msg : public base_msg {
     }
 
     uint8_t index() { return EID.index; }
+};
+
+template<MessageType TYPE>
+struct string_msg_template : public string_msg {
+    //String to raw data
+    string_msg_template(uint8_t node_id, uint8_t index, 
+        const char* string, uint16_t str_length) :
+        string_msg(node_id, TYPE, index, string, str_length) {
+        //Do Nothing, handled by base constructor
+    }
+
+    //Raw data to struct
+    string_msg_template(uint8_t node_id, uint8_t index, uint8_t data[8]) :
+        string_msg(node_id, TYPE, index, data) {
+        //Do Nothing, handled by base constructor
+    }
 };
 
 }

@@ -27,10 +27,6 @@ struct child_node_info {
 
     //Ctrl info
     uint64_t uid48 {};
-    // char elec_type[ELEC_TYPE_SIZE] {};
-    // char hw_type[ELEC_TYPE_SIZE] {};
-    // uint8_t fw_version[FW_VERSION_SIZE] {};
-    // uint8_t app_fw_hash[FW_HASH_SIZE] {};
     util::StringMsgHelper<ELEC_TYPE_SIZE> hw_type_handler_;
     util::StringMsgHelper<ELEC_REV_SIZE> hw_rev_handler_;
     util::StringMsgHelper<ELEC_TYPE_SIZE> elec_type_handler_;
@@ -38,7 +34,6 @@ struct child_node_info {
     util::StringMsgHelper<FW_VERSION_SIZE> fw_version_handler_;
     util::StringMsgHelper<FW_HASH_SIZE> app_fw_hash_handler_;
     util::StringMsgHelper<SERIAL_NUM_SIZE> serial_number_handler_;
-    // uint8_t serial_number[FW_VERSION_SIZE] {};
 
     //Bootloader info
     bool is_bootloader_active { false }; //Is the node in bootloader mode
@@ -133,7 +128,7 @@ protected:
     void recvd_boot_write_end(boot_write_end_msg& msg) override;
     void recvd_boot_erase(boot_erase_msg& msg) override;
     
-    void recvd_ctrl_guid(info_guid_msg& msg) override;
+    void recvd_guid(info_guid_msg& msg) override;
     void recvd_elec_type(info_elec_type_msg& msg) override;
     void recvd_hw_type(info_hw_type_msg& msg) override;
     void recvd_fw_version(info_fw_version_msg& msg) override;

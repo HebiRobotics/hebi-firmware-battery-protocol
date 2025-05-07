@@ -52,7 +52,7 @@ void Main_Node::recvd_data_battery_state_ext_2(battery_state_ext_2_msg& msg) {
     node_info.capacity_full = (float) msg.capacity_full() / 1000.; //Int mAh to float Ah
 }
 
-void Main_Node::recvd_ctrl_guid(info_guid_msg& msg) {
+void Main_Node::recvd_guid(info_guid_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
     
     node_info.uid48 = msg.guid();
@@ -89,13 +89,13 @@ void Main_Node::recvd_serial_num(info_serial_num_msg& msg) {
     node_info.serial_number_handler_.handleMessage(msg);
 }
 
-void Main_Node::recvd_hw_rev(ctrl_hw_rev_msg& msg){
+void Main_Node::recvd_hw_rev(info_hw_rev_msg& msg){
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
     node_info.hw_rev_handler_.handleMessage(msg);
 }
 
-void Main_Node::recvd_elec_rev(ctrl_elec_rev_msg& msg){
+void Main_Node::recvd_elec_rev(info_elec_rev_msg& msg){
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
     node_info.elec_rev_handler_.handleMessage(msg);

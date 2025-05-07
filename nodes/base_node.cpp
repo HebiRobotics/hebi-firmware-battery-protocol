@@ -77,7 +77,7 @@ bool Base_Node::tryParseMsg(base_msg &msg){
             if(msg.len != info_guid_msg::MSG_LEN_BYTES) return false;
 
             auto parsed = info_guid_msg(node_id, msg.data8);
-            recvd_ctrl_guid(parsed); //Trigger event
+            recvd_guid(parsed); //Trigger event
 
             return true; //Successful
         }
@@ -223,38 +223,6 @@ bool Base_Node::tryParseMsg(base_msg &msg){
 
             auto parsed = boot_erase_msg(node_id, msg.data8);
             recvd_boot_erase(parsed); //Trigger event
-
-            return true; //Successful
-        }
-        case MessageType::BOOT_SET_SERIAL_NUM: {
-            if(msg.len != boot_set_serial_num_msg::MSG_LEN_BYTES) return false;
-
-            auto parsed = boot_set_serial_num_msg(node_id, index, msg.data8);
-            recvd_boot_set_serial_num(parsed); //Trigger event
-
-            return true; //Successful
-        }
-        case MessageType::BOOT_SET_HW_TYPE: {
-            if(msg.len != boot_set_hw_type_msg::MSG_LEN_BYTES) return false;
-
-            auto parsed = boot_set_hw_type_msg(node_id, index, msg.data8);
-            recvd_boot_set_hw_type(parsed); //Trigger event
-
-            return true; //Successful
-        }
-        case MessageType::BOOT_SET_HW_REV: {
-            if(msg.len != boot_set_hw_rev_msg::MSG_LEN_BYTES) return false;
-
-            auto parsed = boot_set_hw_rev_msg(node_id, index, msg.data8);
-            recvd_boot_set_hw_rev(parsed); //Trigger event
-
-            return true; //Successful
-        }
-        case MessageType::BOOT_SET_ELEC_REV: {
-            if(msg.len != boot_set_elec_rev_msg::MSG_LEN_BYTES) return false;
-
-            auto parsed = boot_set_elec_rev_msg(node_id, index, msg.data8);
-            recvd_boot_set_elec_rev(parsed); //Trigger event
 
             return true; //Successful
         }

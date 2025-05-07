@@ -265,60 +265,60 @@ struct boot_erase_msg : public base_msg {
     status_t status() { return static_cast<status_t>(data8[IND_STATUS_8]); }
 };
 
-struct boot_set_serial_num_msg : public string_msg {
-    //String to raw data
-    boot_set_serial_num_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
-        string_msg(node_id, MessageType::BOOT_SET_SERIAL_NUM, index, string, str_length) {
-        //Do Nothing
-    }
+// struct boot_set_serial_num_msg : public string_msg {
+//     //String to raw data
+//     boot_set_serial_num_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
+//         string_msg(node_id, MessageType::BOOT_SET_SERIAL_NUM, index, string, str_length) {
+//         //Do Nothing
+//     }
 
-    //Raw data to struct
-    boot_set_serial_num_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
-        string_msg(node_id, MessageType::BOOT_SET_SERIAL_NUM, index, data) {
-        //Do Nothing
-    }
-};
+//     //Raw data to struct
+//     boot_set_serial_num_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
+//         string_msg(node_id, MessageType::BOOT_SET_SERIAL_NUM, index, data) {
+//         //Do Nothing
+//     }
+// };
 
-struct boot_set_hw_type_msg : public string_msg {
-    //String to raw data
-    boot_set_hw_type_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
-        string_msg(node_id, MessageType::BOOT_SET_HW_TYPE, index, string, str_length) {
-        //Do Nothing
-    }
+// struct boot_set_hw_type_msg : public string_msg {
+//     //String to raw data
+//     boot_set_hw_type_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
+//         string_msg(node_id, MessageType::BOOT_SET_HW_TYPE, index, string, str_length) {
+//         //Do Nothing
+//     }
 
-    //Raw data to struct
-    boot_set_hw_type_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
-        string_msg(node_id, MessageType::BOOT_SET_HW_TYPE, index, data) {
-        //Do Nothing
-    }
-};
+//     //Raw data to struct
+//     boot_set_hw_type_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
+//         string_msg(node_id, MessageType::BOOT_SET_HW_TYPE, index, data) {
+//         //Do Nothing
+//     }
+// };
 
-struct boot_set_hw_rev_msg : public string_msg {
-    //String to raw data
-    boot_set_hw_rev_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
-        string_msg(node_id, MessageType::BOOT_SET_HW_REV, index, string, str_length) {
-        //Do Nothing
-    }
+// struct boot_set_hw_rev_msg : public string_msg {
+//     //String to raw data
+//     boot_set_hw_rev_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
+//         string_msg(node_id, MessageType::BOOT_SET_HW_REV, index, string, str_length) {
+//         //Do Nothing
+//     }
 
-    //Raw data to struct
-    boot_set_hw_rev_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
-        string_msg(node_id, MessageType::BOOT_SET_HW_REV, index, data) {
-        //Do Nothing
-    }
-};
+//     //Raw data to struct
+//     boot_set_hw_rev_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
+//         string_msg(node_id, MessageType::BOOT_SET_HW_REV, index, data) {
+//         //Do Nothing
+//     }
+// };
 
-struct boot_set_elec_rev_msg : public string_msg {
-    //String to raw data
-    boot_set_elec_rev_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
-        string_msg(node_id, MessageType::BOOT_SET_ELEC_REV, index, string, str_length) {
-        //Do Nothing
-    }
+// struct boot_set_elec_rev_msg : public string_msg {
+//     //String to raw data
+//     boot_set_elec_rev_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
+//         string_msg(node_id, MessageType::BOOT_SET_ELEC_REV, index, string, str_length) {
+//         //Do Nothing
+//     }
 
-    //Raw data to struct
-    boot_set_elec_rev_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
-        string_msg(node_id, MessageType::BOOT_SET_ELEC_REV, index, data) {
-        //Do Nothing
-    }
-};
+//     //Raw data to struct
+//     boot_set_elec_rev_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
+//         string_msg(node_id, MessageType::BOOT_SET_ELEC_REV, index, data) {
+//         //Do Nothing
+//     }
+// };
 
 } //hebi::firmware::protocol
