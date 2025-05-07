@@ -10,7 +10,7 @@
 
 namespace hebi::firmware::protocol {
 
-struct ctrl_read_info_msg : public base_msg {
+struct info_read_msg : public base_msg {
     static const uint8_t IND_REQUEST = 0;
     static const uint8_t MSG_LEN_BYTES = 2;
 
@@ -26,14 +26,14 @@ struct ctrl_read_info_msg : public base_msg {
     static const uint16_t READ_ELEC_REV     = 0x01 << 9;
 
     //Struct to raw data / raw data to struct
-    ctrl_read_info_msg(uint8_t node_id, uint16_t requested_info) :
+    info_read_msg(uint8_t node_id, uint16_t requested_info) :
         base_msg (node_id, MessageType::INFO_READ) {
             len = MSG_LEN_BYTES;
             data16[IND_REQUEST] = requested_info;
     }
 
     //Raw data to struct
-    ctrl_read_info_msg(uint8_t node_id, uint8_t data[8]) :
+    info_read_msg(uint8_t node_id, uint8_t data[8]) :
         base_msg(node_id, MessageType::INFO_READ, MSG_LEN_BYTES, data) {
         //Do Nothing
     }
@@ -50,18 +50,18 @@ struct ctrl_read_info_msg : public base_msg {
     bool read_ELEC_revision() { return data16[IND_REQUEST] & READ_ELEC_REV; }
 };
 
-struct ctrl_guid_msg : public base_msg {
+struct info_guid_msg : public base_msg {
     static const uint8_t MSG_LEN_BYTES = 8;
 
     //Struct to raw data
-    ctrl_guid_msg(uint8_t node_id, uint64_t guid) :
+    info_guid_msg(uint8_t node_id, uint64_t guid) :
         base_msg (node_id, MessageType::INFO_GUID) {
             len = MSG_LEN_BYTES;
             data64 = guid;
     }
 
     //Raw data to struct
-    ctrl_guid_msg(uint8_t node_id, uint8_t data[8]) :
+    info_guid_msg(uint8_t node_id, uint8_t data[8]) :
         base_msg(node_id, MessageType::INFO_GUID, MSG_LEN_BYTES, data) {
         //Do Nothing
     }
@@ -69,63 +69,63 @@ struct ctrl_guid_msg : public base_msg {
     uint64_t guid() { return data64; }
 };
 
-struct ctrl_elec_type_msg : public string_msg {
+struct info_elec_type_msg : public string_msg {
     //String to raw data
-    ctrl_elec_type_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
+    info_elec_type_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
         string_msg(node_id, MessageType::INFO_ELEC_TYPE, index, string, str_length) {
         //Do Nothing
     }
 
     //Raw data to struct
-    ctrl_elec_type_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
+    info_elec_type_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
         string_msg(node_id, MessageType::INFO_ELEC_TYPE, index, data) {
         //Do Nothing
     }
 };
 
-struct ctrl_hw_type_msg : public string_msg {
+struct info_hw_type_msg : public string_msg {
     //String to raw data
-    ctrl_hw_type_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
+    info_hw_type_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
         string_msg(node_id, MessageType::INFO_HW_TYPE, index, string, str_length) {
         //Do Nothing
     }
 
     //Raw data to struct
-    ctrl_hw_type_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
+    info_hw_type_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
         string_msg(node_id, MessageType::INFO_HW_TYPE, index, data) {
         //Do Nothing
     }
 };
 
-struct ctrl_fw_version_msg : public string_msg {
+struct info_fw_version_msg : public string_msg {
     //String to raw data
-    ctrl_fw_version_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
+    info_fw_version_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
         string_msg(node_id, MessageType::INFO_FW_VERSION, index, string, str_length) {
         //Do Nothing
     }
 
     //Raw data to struct
-    ctrl_fw_version_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
+    info_fw_version_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
         string_msg(node_id, MessageType::INFO_FW_VERSION, index, data) {
         //Do Nothing
     }
 };
 
-struct ctrl_fw_mode_msg : public base_msg {
+struct info_fw_mode_msg : public base_msg {
     static const uint8_t IND_MODE = 0;
     static const uint8_t FW_MODE_BOOT = 1;
     static const uint8_t FW_MODE_APP = 2;
     static const uint8_t MSG_LEN_BYTES = 1;
 
     //Struct to raw data
-    ctrl_fw_mode_msg(uint8_t node_id, uint8_t mode) :
+    info_fw_mode_msg(uint8_t node_id, uint8_t mode) :
         base_msg (node_id, MessageType::INFO_FW_MODE) {
             len = MSG_LEN_BYTES;
             data8[IND_MODE] = mode;
     }
 
     //Raw data to struct
-    ctrl_fw_mode_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
+    info_fw_mode_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
         base_msg(node_id, MessageType::INFO_FW_MODE, MSG_LEN_BYTES, data, index) {
         //Do Nothing
     }
@@ -134,71 +134,71 @@ struct ctrl_fw_mode_msg : public base_msg {
     bool is_application() { return data8[IND_MODE] == FW_MODE_APP; }
 };
 
-struct ctrl_app_fw_hash_msg : public string_msg {
+struct info_app_fw_hash_msg : public string_msg {
     //String to raw data
-    ctrl_app_fw_hash_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
+    info_app_fw_hash_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
         string_msg(node_id, MessageType::INFO_APP_FW_HASH, index, string, str_length) {
         //Do Nothing
     }
 
     //Raw data to struct
-    ctrl_app_fw_hash_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
+    info_app_fw_hash_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
         string_msg(node_id, MessageType::INFO_APP_FW_HASH, index, data) {
         //Do Nothing
     }
 };
 
-struct ctrl_boot_fw_hash_msg : public string_msg {
+struct info_boot_fw_hash_msg : public string_msg {
     //String to raw data
-    ctrl_boot_fw_hash_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
+    info_boot_fw_hash_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
         string_msg(node_id, MessageType::INFO_BOOT_FW_HASH, index, string, str_length) {
         //Do Nothing
     }
 
     //Raw data to struct
-    ctrl_boot_fw_hash_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
+    info_boot_fw_hash_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
         string_msg(node_id, MessageType::INFO_BOOT_FW_HASH, index, data) {
         //Do Nothing
     }
 };
 
-struct ctrl_serial_num_msg : public string_msg {
+struct info_serial_num_msg : public string_msg {
     //String to raw data
-    ctrl_serial_num_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
+    info_serial_num_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
         string_msg(node_id, MessageType::INFO_SERIAL_NUM, index, string, str_length) {
         //Do Nothing
     }
 
     //Raw data to struct
-    ctrl_serial_num_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
+    info_serial_num_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
         string_msg(node_id, MessageType::INFO_SERIAL_NUM, index, data) {
         //Do Nothing
     }
 };
 
-struct ctrl_hw_rev_msg : public string_msg {
+struct info_hw_rev_msg : public string_msg {
     //String to raw data
-    ctrl_hw_rev_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
+    info_hw_rev_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
         string_msg(node_id, MessageType::INFO_HW_REV, index, string, str_length) {
         //Do Nothing
     }
 
     //Raw data to struct
-    ctrl_hw_rev_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
+    info_hw_rev_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
         string_msg(node_id, MessageType::INFO_HW_REV, index, data) {
         //Do Nothing
     }
 };
 
-struct ctrl_elec_rev_msg : public string_msg {
+struct info_elec_rev_msg : public string_msg {
     //String to raw data
-    ctrl_elec_rev_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
+    info_elec_rev_msg(uint8_t node_id, uint8_t index, const char* string, uint16_t str_length) :
         string_msg(node_id, MessageType::INFO_ELEC_REV, index, string, str_length) {
         //Do Nothing
     }
 
     //Raw data to struct
-    ctrl_elec_rev_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
+    info_elec_rev_msg(uint8_t node_id, uint8_t index, uint8_t data[8]) :
         string_msg(node_id, MessageType::INFO_ELEC_REV, index, data) {
         //Do Nothing
     }

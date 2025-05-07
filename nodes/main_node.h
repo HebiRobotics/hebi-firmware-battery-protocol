@@ -133,15 +133,15 @@ protected:
     void recvd_boot_write_end(boot_write_end_msg& msg) override;
     void recvd_boot_erase(boot_erase_msg& msg) override;
     
-    void recvd_ctrl_guid(ctrl_guid_msg& msg) override;
-    void recvd_elec_type(ctrl_elec_type_msg& msg) override;
-    void recvd_hw_type(ctrl_hw_type_msg& msg) override;
-    void recvd_fw_version(ctrl_fw_version_msg& msg) override;
-    void recvd_fw_mode(ctrl_fw_mode_msg& msg) override;
-    void recvd_app_fw_hash(ctrl_app_fw_hash_msg& msg) override;
-    void recvd_serial_num(ctrl_serial_num_msg& msg) override;
-    void recvd_hw_rev(ctrl_hw_rev_msg& msg) override;
-    void recvd_elec_rev(ctrl_elec_rev_msg& msg) override;
+    void recvd_ctrl_guid(info_guid_msg& msg) override;
+    void recvd_elec_type(info_elec_type_msg& msg) override;
+    void recvd_hw_type(info_hw_type_msg& msg) override;
+    void recvd_fw_version(info_fw_version_msg& msg) override;
+    void recvd_fw_mode(info_fw_mode_msg& msg) override;
+    void recvd_app_fw_hash(info_app_fw_hash_msg& msg) override;
+    void recvd_serial_num(info_serial_num_msg& msg) override;
+    void recvd_hw_rev(info_hw_rev_msg& msg) override;
+    void recvd_elec_rev(info_elec_rev_msg& msg) override;
     
     std::map<node_id_t, child_node_info> child_nodes_;
 

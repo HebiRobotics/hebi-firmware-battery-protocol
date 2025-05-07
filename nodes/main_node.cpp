@@ -52,38 +52,38 @@ void Main_Node::recvd_data_battery_state_ext_2(battery_state_ext_2_msg& msg) {
     node_info.capacity_full = (float) msg.capacity_full() / 1000.; //Int mAh to float Ah
 }
 
-void Main_Node::recvd_ctrl_guid(ctrl_guid_msg& msg) {
+void Main_Node::recvd_ctrl_guid(info_guid_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
     
     node_info.uid48 = msg.guid();
 }
 
-void Main_Node::recvd_elec_type(ctrl_elec_type_msg& msg) {
+void Main_Node::recvd_elec_type(info_elec_type_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
     node_info.elec_type_handler_.handleMessage(msg);
 }
 
-void Main_Node::recvd_hw_type(ctrl_hw_type_msg& msg) {
+void Main_Node::recvd_hw_type(info_hw_type_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
     node_info.hw_type_handler_.handleMessage(msg);
 }
 
-void Main_Node::recvd_fw_version(ctrl_fw_version_msg& msg) {
+void Main_Node::recvd_fw_version(info_fw_version_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
     node_info.fw_version_handler_.handleMessage(msg);
 }
 
-void Main_Node::recvd_app_fw_hash(ctrl_app_fw_hash_msg& msg) {
+void Main_Node::recvd_app_fw_hash(info_app_fw_hash_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
     node_info.app_fw_hash_handler_.handleMessage(msg);
 
 }
 
-void Main_Node::recvd_serial_num(ctrl_serial_num_msg& msg) {
+void Main_Node::recvd_serial_num(info_serial_num_msg& msg) {
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
     node_info.serial_number_handler_.handleMessage(msg);
@@ -106,7 +106,7 @@ void Main_Node::recvd_ctrl_poll_node_id(ctrl_poll_node_id_msg& msg) {
         getNodeFromIDAndUpdate(msg.EID.node_id);
 }
 
-void Main_Node::recvd_fw_mode(ctrl_fw_mode_msg& msg) { 
+void Main_Node::recvd_fw_mode(info_fw_mode_msg& msg) { 
     child_node_info& node_info = getNodeFromIDAndUpdate(msg.EID.node_id);
 
     node_info.is_bootloader_active = msg.is_bootloader();
@@ -222,16 +222,16 @@ void Main_Node::update(bool acquire_enable, bool clear_ids, uint64_t t_now){
             //Request info if we haven't in a while and aren't in bootloader mode
             if(node.needsInfo(t_now) && node.bootloader_action == boot_action_t::NONE){
                 can_driver_.sendMessage(
-                    ctrl_read_info_msg(pair.first, 
-                        ctrl_read_info_msg::READ_GUID | 
-                        ctrl_read_info_msg::READ_ELEC_TYPE | 
-                        ctrl_read_info_msg::READ_HW_TYPE | 
-                        ctrl_read_info_msg::READ_FW_VERSION | 
-                        ctrl_read_info_msg::READ_FW_MODE | 
-                        ctrl_read_info_msg::READ_APP_FW_HASH | 
-                        ctrl_read_info_msg::READ_SERIAL_NUM | 
-                        ctrl_read_info_msg::READ_HW_REV | 
-                        ctrl_read_info_msg::READ_ELEC_REV
+                    info_read_msg(pair.first, 
+                        info_read_msg::READ_GUID | 
+                        info_read_msg::READ_ELEC_TYPE | 
+                        info_read_msg::READ_HW_TYPE | 
+                        info_read_msg::READ_FW_VERSION | 
+                        info_read_msg::READ_FW_MODE | 
+                        info_read_msg::READ_APP_FW_HASH | 
+                        info_read_msg::READ_SERIAL_NUM | 
+                        info_read_msg::READ_HW_REV | 
+                        info_read_msg::READ_ELEC_REV
                     ));
                 node.t_last_info = t_now;
             }
