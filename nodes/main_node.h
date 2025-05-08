@@ -106,7 +106,7 @@ public:
 
     child_node_info& getNodeFromID(node_id_t node_id);
 
-    const std::map<node_id_t, child_node_info>& childNodes() { return child_nodes_; }
+    std::map<node_id_t, child_node_info>& childNodes() { return child_nodes_; }
     float soc() { return current_soc_; }
 
 
